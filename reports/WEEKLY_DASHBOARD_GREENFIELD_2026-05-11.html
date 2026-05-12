@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Higher Level Greenfield — Weekly Dashboard | May 11, 2026</title>
+<style>
+  :root { --bg:#0a0e17; --surface:#141926; --card:#1e2235; --border:#282d48; --accent:#26a69a; --accent2:#4fc3f7; --accent3:#81c784; --accent4:#ffb74d; --accent5:#ef5350; --text:#e0f2f1; --muted:#80cbc4; --white:#ffffff; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; font-size:14px; }
+  .header { background:linear-gradient(135deg,#0a1f1e,#0d2030); padding:24px 32px; border-bottom:1px solid var(--border); }
+  .header h1 { font-size:20px; font-weight:700; color:var(--white); }
+  .header .meta { color:var(--muted); font-size:12px; margin-top:5px; }
+  .badge { display:inline-block; padding:3px 10px; border-radius:10px; font-size:11px; font-weight:600; margin-left:10px; }
+  .badge-ca { background:#00695c22; color:var(--accent); border:1px solid #00695c44; }
+  .badge-mono { background:#fbbf2422; color:var(--accent4); border:1px solid #fbbf2444; }
+  .badge-warn { background:#ef535022; color:var(--accent5); border:1px solid #ef535044; }
+  .container { max-width:1200px; margin:0 auto; padding:24px 32px; }
+  .grid4 { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:24px; }
+  .kpi { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; }
+  .kpi-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.8px; }
+  .kpi-val { font-size:22px; font-weight:700; color:var(--white); margin-top:4px; }
+  .kpi-sub { font-size:11px; margin-top:3px; }
+  .sub-ok { color:var(--accent3); } .sub-warn { color:var(--accent5); } .sub-neutral { color:var(--muted); } .sub-flag { color:var(--accent4); }
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:20px; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px; }
+  .card h2 { font-size:13px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.8px; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--border); }
+  .row { display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid var(--border); font-size:13px; }
+  .row:last-child { border-bottom:none; }
+  .row .label { color:var(--muted); }
+  .row .val { color:var(--white); font-weight:600; }
+  .alert { background:var(--surface); border-radius:8px; padding:12px 16px; margin-bottom:10px; font-size:12px; display:flex; gap:10px; align-items:flex-start; }
+  .alert.critical { border:1px solid var(--accent5); }
+  .alert.warn { border:1px solid var(--accent4); }
+  .alert.info { border:1px solid var(--accent2); }
+  .alert.ok { border:1px solid var(--accent3); }
+  .alert.ca { border:1px solid var(--accent); }
+  .alert-icon { font-size:16px; flex-shrink:0; }
+  .full-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px; margin-bottom:18px; }
+  .full-card h2 { font-size:13px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.8px; margin-bottom:12px; }
+  .section-title { font-size:12px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin:20px 0 10px; border-left:3px solid var(--accent); padding-left:10px; }
+  .ratio-block { background:var(--surface); border:1px solid var(--accent5); border-radius:10px; padding:18px; margin:14px 0; }
+  .ratio-block h3 { font-size:14px; font-weight:700; color:var(--accent5); margin-bottom:10px; }
+  .ratio-stat { font-size:24px; font-weight:800; color:var(--white); margin-bottom:4px; }
+  .ratio-context { font-size:12px; color:var(--muted); line-height:1.6; }
+  .bar-row { margin-bottom:10px; }
+  .bar-row .bl { display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-bottom:3px; }
+  .bar-track { background:var(--surface); border-radius:3px; height:7px; overflow:hidden; }
+  .bar-fill { height:100%; border-radius:3px; }
+  .footer { text-align:center; padding:16px; color:var(--muted); font-size:11px; border-top:1px solid var(--border); }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🌿 Higher Level Greenfield — Weekly Dashboard
+    <span class="badge badge-ca">CA Store</span>
+    <span class="badge badge-mono">⭐ Monopoly Market</span>
+    <span class="badge badge-warn">⚠️ Activation Gap</span>
+  </h1>
+  <div class="meta">Week of May 11–17, 2026 | Greenfield, CA — Monterey County | Phat Panda Group</div>
+</div>
+<div class="container">
+
+  <div class="grid4">
+    <div class="kpi">
+      <div class="kpi-label">All-Time Transactions</div>
+      <div class="kpi-val">21,281</div>
+      <div class="kpi-sub sub-warn">Lowest in portfolio</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Customer Base</div>
+      <div class="kpi-val">58,493</div>
+      <div class="kpi-sub sub-flag">⚠️ Large vs transactions</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Local Competitors</div>
+      <div class="kpi-val">0</div>
+      <div class="kpi-sub sub-ok">✅ Monopoly in Greenfield</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Market Opportunity</div>
+      <div class="kpi-val">21K+ pop</div>
+      <div class="kpi-sub sub-neutral">+ Soledad/King City draw</div>
+    </div>
+  </div>
+
+  <div class="ratio-block">
+    <h3>⚠️ CRITICAL FLAG: Customer-to-Transaction Ratio</h3>
+    <div class="ratio-stat">2.7 transactions per customer (all-time)</div>
+    <div class="ratio-context">
+      58,493 customers on file vs only 21,281 total transactions is a significant anomaly. Comparison: Fyre Ants has 4.9 transactions per customer; La Mesa has 3.8. <br><br>
+      Possible causes: (1) Large customer file includes many one-visit customers who never returned. (2) Cash transactions not fully captured in POS/loyalty. (3) Community outreach generated signups without driving sales. (4) Black market competition pulling repeat purchases.<br><br>
+      <strong>Priority action: Pull transaction frequency distribution from Dutchie — what % of customers have 1 vs 2+ vs 5+ transactions? Run re-activation campaign for dormant customers.</strong>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <h2>📊 Store Metrics</h2>
+      <div class="row"><span class="label">All-Time Transactions</span><span class="val">21,281</span></div>
+      <div class="row"><span class="label">Customer Records</span><span class="val">58,493</span></div>
+      <div class="row"><span class="label">Transactions ÷ Customers</span><span class="val" style="color:var(--accent5)">2.7 (LOW)</span></div>
+      <div class="row"><span class="label">Inventory Lines</span><span class="val">3,512</span></div>
+      <div class="row"><span class="label">Active SKUs</span><span class="val">4,521 (focused)</span></div>
+      <div class="row"><span class="label">POS Terminals</span><span class="val">9</span></div>
+      <div class="row"><span class="label">Weedmaps Listings (Greenfield)</span><span class="val" style="color:var(--accent3)">1 (This Store Only)</span></div>
+      <div class="row"><span class="label">API Auth Status</span><span class="val" style="color:var(--accent3)">✅ OK</span></div>
+    </div>
+    <div class="card">
+      <h2>📍 Community Profile</h2>
+      <div class="row"><span class="label">Population</span><span class="val">21,042 (growing)</span></div>
+      <div class="row"><span class="label">Median Age</span><span class="val">28.8 years (very young)</span></div>
+      <div class="row"><span class="label">Median HHI</span><span class="val">$84,740</span></div>
+      <div class="row"><span class="label">Hispanic Population</span><span class="val">96.1%</span></div>
+      <div class="row"><span class="label">Primary Industry</span><span class="val">Agriculture (2,947 workers)</span></div>
+      <div class="row"><span class="label">Hwy 101 Access</span><span class="val">Oak Avenue exit — direct</span></div>
+      <div class="row"><span class="label">Trade Area Extends To</span><span class="val">Soledad, Gonzales, King City</span></div>
+      <div class="row"><span class="label">Established</span><span class="val">2021 (1st in S. Monterey Co.)</span></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <h2>📻 Marketing Channels (Greenfield-Specific)</h2>
+      <div class="row"><span class="label">KLOK-FM 99.5</span><span class="val">Spanish radio, Greenfield local</span></div>
+      <div class="row"><span class="label">KDON-FM 102.5</span><span class="val">Spanish radio, Salinas</span></div>
+      <div class="row"><span class="label">KRKC 1490 AM</span><span class="val">King City AM radio</span></div>
+      <div class="row"><span class="label">Facebook / Meta</span><span class="val">Spanish-language geo ads (Greenfield zip)</span></div>
+      <div class="row"><span class="label">Google Business</span><span class="val">"Greenfield dispensary" — easy #1 rank (no competition)</span></div>
+      <div class="row"><span class="label">Weedmaps</span><span class="val">Only listing in Greenfield — maximize content</span></div>
+      <div class="row"><span class="label">In-store signage</span><span class="val">Bilingual English/Spanish essential</span></div>
+    </div>
+    <div class="card">
+      <h2>🗓️ May–June Event Calendar</h2>
+      <div class="row"><span class="label">Cinco de Mayo (past)</span><span class="val">Document revenue lift for future planning</span></div>
+      <div class="row"><span class="label">Memorial Day (May 26)</span><span class="val">Holiday deal; Hwy 101 travelers</span></div>
+      <div class="row"><span class="label">Spring agricultural peak</span><span class="val">Farm worker income peak — in-stock on value flower</span></div>
+      <div class="row"><span class="label">Wine country season</span><span class="val">Hwy 101 wine tourists; dispensary stop</span></div>
+      <div class="row"><span class="label">Mother's Day (past May 11)</span><span class="val">Edible / wellness gift promotions</span></div>
+      <div class="row"><span class="label">School year end (June)</span><span class="val">Young population uplift</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">Weekly Priority Actions</div>
+  <div class="full-card">
+    <h2>This Week's Action List</h2>
+    <div class="alert critical"><div class="alert-icon">🔴</div><div><strong>CUSTOMER ACTIVATION GAP:</strong> 58K customers, 21K transactions. Pull transaction frequency from Dutchie. Segment customers: 1 visit, 2–4 visits, 5+ visits. Build SMS re-activation offer for 1-visit customers (welcome back deal). This is the #1 opportunity for this store.</div></div>
+    <div class="alert warn"><div class="alert-icon">📻</div><div><strong>SPANISH-LANGUAGE MARKETING:</strong> Contact KLOK-FM 99.5 (Greenfield) and KDON-FM 102.5 (Salinas) for advertising rates. 96.1% Hispanic community — English-only marketing is a major gap. Explore Spanish social media (Facebook) geo-targeted ads for Greenfield + Soledad zip codes.</div></div>
+    <div class="alert ca"><div class="alert-icon">🌿</div><div><strong>MONOPOLY ADVANTAGE:</strong> Only dispensary in Google Maps for Greenfield. Ensure Google Business Profile is 100% complete: hours, photos, bilingual description, Q&A. "Greenfield dispensary" should rank #1 organically with minimal effort.</div></div>
+    <div class="alert info"><div class="alert-icon">🍷</div><div><strong>WINE COUNTRY VISITOR CAPTURE:</strong> Highway 101 runs through Greenfield with direct Oak Avenue exit access to 48 4th St. Nearby: J.Lohr, Kendall-Jackson, Hahn Estates, Scheid Vineyards. Create "wine trail + dispensary stop" positioning. Update Google Business to include wine country keywords.</div></div>
+    <div class="alert info"><div class="alert-icon">🌾</div><div><strong>AGRICULTURAL INCOME CYCLES:</strong> Spring is peak farm worker income period (planting season). Stock value-priced flower, ensure ATM is working (cash economy community). Consider farm worker / agricultural worker appreciation week promotion.</div></div>
+    <div class="alert ok"><div class="alert-icon">💪</div><div><strong>LOYAL BRAND MISSION:</strong> Higher Level's stated mission ("lowest prices in town") is perfectly aligned with this working-class agricultural community. Reinforce this message in all marketing — it's a competitive moat that new entrants would have difficulty matching.</div></div>
+  </div>
+
+</div>
+<div class="footer">Phat Panda Group | Higher Level Greenfield Weekly Dashboard | Week of 2026-05-11 | File: Dashboards/WEEKLY_DASHBOARD_GREENFIELD_2026-05-11.html</div>
+</body>
+</html>

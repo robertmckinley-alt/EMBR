@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phat Panda Group — Weekly Store Dashboard | Week of May 11, 2026</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d2e; --card: #222536; --border: #2e3250;
+    --accent: #7c5cbf; --accent2: #4fc3f7; --accent3: #81c784; --accent4: #ffb74d; --accent5: #ef5350;
+    --text: #e8eaf6; --muted: #9fa8c7; --white: #ffffff;
+    --ma: #7986cb; --ca: #26a69a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; }
+  .page-header { background: linear-gradient(135deg, #1a1040 0%, #0d2137 100%); padding: 28px 32px; border-bottom: 1px solid var(--border); }
+  .page-header h1 { font-size: 22px; font-weight: 700; color: var(--white); letter-spacing: 0.5px; }
+  .page-header .meta { color: var(--muted); font-size: 13px; margin-top: 6px; display: flex; gap: 24px; align-items: center; }
+  .badge { padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; }
+  .badge-ma { background: #3949ab22; color: var(--ma); border: 1px solid #3949ab44; }
+  .badge-ca { background: #00695c22; color: var(--ca); border: 1px solid #00695c44; }
+  .badge-warn { background: #f57f1722; color: var(--accent4); border: 1px solid #f57f1744; }
+  .badge-ok { background: #2e7d3222; color: var(--accent3); border: 1px solid #2e7d3244; }
+
+  .container { max-width: 1600px; margin: 0 auto; padding: 24px 32px; }
+  
+  /* KPI Row */
+  .kpi-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-bottom: 28px; }
+  .kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .kpi-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+  .kpi-value { font-size: 24px; font-weight: 700; color: var(--white); }
+  .kpi-sub { font-size: 12px; color: var(--accent3); margin-top: 4px; }
+  .kpi-sub.down { color: var(--accent5); }
+  .kpi-sub.neutral { color: var(--muted); }
+
+  /* Store Cards */
+  .section-title { font-size: 15px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin: 28px 0 14px; border-left: 3px solid var(--accent); padding-left: 12px; }
+  .stores-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 28px; }
+  .store-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; position: relative; overflow: hidden; }
+  .store-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .store-card.ma::before { background: linear-gradient(90deg, var(--ma), #5c6bc0); }
+  .store-card.ca::before { background: linear-gradient(90deg, var(--ca), #00897b); }
+  .store-card.offline::before { background: linear-gradient(90deg, #616161, #424242); }
+
+  .store-name { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .store-location { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+  .store-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .metric { background: var(--surface); border-radius: 8px; padding: 10px 12px; }
+  .metric-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
+  .metric-value { font-size: 18px; font-weight: 700; color: var(--white); margin-top: 2px; }
+  .metric-delta { font-size: 11px; margin-top: 1px; }
+  .up { color: var(--accent3); } .dn { color: var(--accent5); } .flat { color: var(--muted); }
+
+  .store-bar { margin-bottom: 10px; }
+  .bar-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .bar-track { background: var(--surface); border-radius: 4px; height: 8px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s; }
+  .bar-fill.flower { background: var(--accent3); }
+  .bar-fill.vape { background: var(--accent2); }
+  .bar-fill.preroll { background: var(--accent4); }
+  .bar-fill.edible { background: var(--accent); }
+
+  .action-list { margin-top: 12px; }
+  .action-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: var(--text); margin-bottom: 6px; line-height: 1.4; }
+  .action-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent4); margin-top: 4px; flex-shrink: 0; }
+  .action-dot.green { background: var(--accent3); }
+  .action-dot.red { background: var(--accent5); }
+  .action-dot.blue { background: var(--accent2); }
+
+  /* Market Section */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 28px; }
+  .info-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .info-card h3 { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 14px; }
+  .event-item { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .event-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .event-date { background: var(--accent); color: white; border-radius: 6px; padding: 4px 8px; font-size: 11px; font-weight: 700; white-space: nowrap; min-width: 60px; text-align: center; }
+  .event-date.ca { background: var(--ca); }
+  .event-info { flex: 1; }
+  .event-title { font-weight: 600; font-size: 13px; color: var(--white); }
+  .event-detail { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .competitor-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .competitor-item:last-child { border-bottom: none; }
+  .comp-name { font-size: 13px; color: var(--text); }
+  .comp-market { font-size: 11px; color: var(--muted); }
+  .comp-signal { font-size: 11px; padding: 2px 8px; border-radius: 10px; }
+  .signal-watch { background: #f57f1722; color: var(--accent4); }
+  .signal-threat { background: #ef535022; color: var(--accent5); }
+  .signal-ok { background: #2e7d3222; color: var(--accent3); }
+
+  /* Summary bar */
+  .summary-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 28px; }
+  .summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; }
+  .summary-card h3 { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+  .summary-card ul { list-style: none; }
+  .summary-card li { font-size: 12px; color: var(--text); padding: 4px 0; border-bottom: 1px solid var(--border); display: flex; gap: 8px; }
+  .summary-card li:last-child { border-bottom: none; }
+  .li-icon { font-size: 13px; }
+
+  .footer { text-align: center; padding: 20px; color: var(--muted); font-size: 11px; border-top: 1px solid var(--border); margin-top: 28px; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>🌿 Phat Panda Group — Weekly Store Dashboard</h1>
+  <div class="meta">
+    <span>Week of <strong>May 11–17, 2026</strong></span>
+    <span class="badge badge-ma">3 MA Stores</span>
+    <span class="badge badge-ca">3 CA Stores</span>
+    <span class="badge badge-warn">EMBR Springfield: Auth Offline</span>
+    <span style="margin-left:auto; opacity:0.6;">Generated: 2026-05-11 | Data: Dutchie POS + External Research</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Active Stores</div>
+      <div class="kpi-value">5 / 6</div>
+      <div class="kpi-sub neutral">1 auth offline (Springfield)</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Total Transactions (Live Data)</div>
+      <div class="kpi-value">797K+</div>
+      <div class="kpi-sub">Across 5 connected stores</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Total Customers (5 Stores)</div>
+      <div class="kpi-value">262K+</div>
+      <div class="kpi-sub">Active customer base</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Total SKUs Active</div>
+      <div class="kpi-value">120K+</div>
+      <div class="kpi-sub neutral">Across all store catalogs</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">MA Market State</div>
+      <div class="kpi-value" style="font-size:16px">$1.65B</div>
+      <div class="kpi-sub neutral">2025 annual sales (flat YoY)</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">CA Market State</div>
+      <div class="kpi-value" style="font-size:16px">$3.97B</div>
+      <div class="kpi-sub down">2025 annual (-7% YoY)</div>
+    </div>
+  </div>
+
+  <div class="section-title">Store Performance Snapshots — Week of May 11</div>
+
+  <div class="stores-grid">
+
+    <!-- Store 01: Springfield (offline) -->
+    <div class="store-card offline">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div>
+          <div class="store-name">EMBR Springfield</div>
+          <div class="store-location">Springfield, MA — Hampden County</div>
+        </div>
+        <span class="badge badge-warn">AUTH OFFLINE</span>
+      </div>
+      <div style="background:#1a1a1a; border-radius:8px; padding:14px; margin:12px 0; text-align:center; color:var(--muted);">
+        <div style="font-size:28px; margin-bottom:6px">⚠️</div>
+        <div style="font-size:13px;">POS API authentication failed.<br>No live data available this week.</div>
+      </div>
+      <div class="action-list">
+        <div class="action-item"><div class="action-dot red"></div>Resolve Dutchie API key / scope issue immediately</div>
+        <div class="action-item"><div class="action-dot red"></div>Contact Dutchie Support: support@dutchie.com</div>
+        <div class="action-item"><div class="action-dot"></div>Springfield market: high CT cross-border demand; strong revenue potential</div>
+        <div class="action-item"><div class="action-dot blue"></div>Competitor watch: Zaza Green, 6Bricks, INSA Springfield active</div>
+        <div class="action-item"><div class="action-dot"></div>Upcoming: Big E / Eastern States Exposition (Sep–Oct) — prep marketing</div>
+      </div>
+    </div>
+
+    <!-- Store 02: Northampton -->
+    <div class="store-card ma">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div>
+          <div class="store-name">EMBR Northampton</div>
+          <div class="store-location">Northampton, MA — Hampshire County</div>
+        </div>
+        <span class="badge badge-ma">MA LIVE</span>
+      </div>
+      <div class="store-metrics">
+        <div class="metric">
+          <div class="metric-label">Total Transactions (All Time)</div>
+          <div class="metric-value">183K</div>
+          <div class="metric-delta flat">Data through 2026-05-08</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Customer Base</div>
+          <div class="metric-value">44K</div>
+          <div class="metric-delta up">↑ Active</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Active SKUs</div>
+          <div class="metric-value">27.5K</div>
+          <div class="metric-delta flat">Products on file</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Inventory Lines</div>
+          <div class="metric-value">939</div>
+          <div class="metric-delta flat">Active inventory records</div>
+        </div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>🌿 Flower ~40%</span><span></span></div>
+        <div class="bar-track"><div class="bar-fill flower" style="width:40%"></div></div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>💨 Vape ~21%</span><span></span></div>
+        <div class="bar-track"><div class="bar-fill vape" style="width:21%"></div></div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>🔥 Pre-rolls ~19%</span><span></span></div>
+        <div class="bar-track"><div class="bar-fill preroll" style="width:19%"></div></div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>🍬 Edibles ~13%</span><span></span></div>
+        <div class="bar-track"><div class="bar-fill edible" style="width:13%"></div></div>
+      </div>
+      <div class="action-list">
+        <div class="action-item"><div class="action-dot green"></div>Market: High-education, liberal, LGBTQ+ community — premium curation matters</div>
+        <div class="action-item"><div class="action-dot"></div>Northampton Pride (June) — plan event promotions NOW</div>
+        <div class="action-item"><div class="action-dot blue"></div>Competitor watch: Honey Northampton very active; The Source closed (opportunity)</div>
+        <div class="action-item"><div class="action-dot"></div>Weedmaps optimization: update photos, menu keywords</div>
+        <div class="action-item"><div class="action-dot"></div>Academic year ends May → tourist season begins; adjust inventory mix</div>
+      </div>
+    </div>
+
+    <!-- Store 03: Fyre Ants Easthampton -->
+    <div class="store-card ma">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div>
+          <div class="store-name">Fyre Ants Easthampton</div>
+          <div class="store-location">Easthampton, MA — Hampshire County</div>
+        </div>
+        <span class="badge badge-ma">MA LIVE</span>
+      </div>
+      <div class="store-metrics">
+        <div class="metric">
+          <div class="metric-label">Total Transactions (All Time)</div>
+          <div class="metric-value">315K</div>
+          <div class="metric-delta up">↑ Highest volume MA store</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Customer Base</div>
+          <div class="metric-value">64K</div>
+          <div class="metric-delta up">↑ Largest customer file</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Active SKUs</div>
+          <div class="metric-value">31.5K</div>
+          <div class="metric-delta flat">Products on file</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Inventory Lines</div>
+          <div class="metric-value">1,174</div>
+          <div class="metric-delta flat">Active inventory records</div>
+        </div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>🌿 Flower ~40%</span></div>
+        <div class="bar-track"><div class="bar-fill flower" style="width:40%"></div></div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>💨 Vape ~21%</span></div>
+        <div class="bar-track"><div class="bar-fill vape" style="width:21%"></div></div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>🔥 Pre-rolls ~19%</span></div>
+        <div class="bar-track"><div class="bar-fill preroll" style="width:19%"></div></div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>🍬 Edibles ~13%</span></div>
+        <div class="bar-track"><div class="bar-fill edible" style="width:13%"></div></div>
+      </div>
+      <div class="action-list">
+        <div class="action-item"><div class="action-dot green"></div>Highest transaction volume in MA portfolio — protect this position</div>
+        <div class="action-item"><div class="action-dot red"></div>NEW THREAT: OZ Club "outlet model" opened — bulk/discount competitor at Route 5</div>
+        <div class="action-item"><div class="action-dot"></div>INSA Easthampton: large cultivator with retail; monitor inventory pricing</div>
+        <div class="action-item"><div class="action-dot"></div>Loyalty program: critical to retain 64K customer file vs new discounters</div>
+        <div class="action-item"><div class="action-dot blue"></div>Arts/mill district identity: creative promotions with Eastworks tenants</div>
+      </div>
+    </div>
+
+    <!-- Store 04: EMBR La Mesa -->
+    <div class="store-card ca">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div>
+          <div class="store-name">EMBR La Mesa</div>
+          <div class="store-location">La Mesa, CA — San Diego County</div>
+        </div>
+        <span class="badge badge-ca">CA LIVE</span>
+      </div>
+      <div class="store-metrics">
+        <div class="metric">
+          <div class="metric-label">Total Transactions (All Time)</div>
+          <div class="metric-value">184K</div>
+          <div class="metric-delta flat">Comparable to Northampton</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Customer Base</div>
+          <div class="metric-value">48.6K</div>
+          <div class="metric-delta flat">Active customer file</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Active SKUs</div>
+          <div class="metric-value">27.7K</div>
+          <div class="metric-delta flat">Products on file</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Inventory Lines</div>
+          <div class="metric-value">1,159</div>
+          <div class="metric-delta flat">Active inventory records</div>
+        </div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>🌿 Flower</span></div>
+        <div class="bar-track"><div class="bar-fill flower" style="width:35%"></div></div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>💨 Vape</span></div>
+        <div class="bar-track"><div class="bar-fill vape" style="width:25%"></div></div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>🔥 Pre-rolls</span></div>
+        <div class="bar-track"><div class="bar-fill preroll" style="width:22%"></div></div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>🍬 Edibles</span></div>
+        <div class="bar-track"><div class="bar-fill edible" style="width:13%"></div></div>
+      </div>
+      <div class="action-list">
+        <div class="action-item"><div class="action-dot red"></div>HYPERCOMPETITIVE market: 61 Weedmaps listings in La Mesa</div>
+        <div class="action-item"><div class="action-dot green"></div>Key differentiator: Phat Panda vertical integration = direct premium product access</div>
+        <div class="action-item"><div class="action-dot"></div>Weedmaps listing: critical to optimize NOW (photos, menu, keywords)</div>
+        <div class="action-item"><div class="action-dot blue"></div>SDSU students: finals month — promotions + loyalty onboarding</div>
+        <div class="action-item"><div class="action-dot"></div>Oktoberfest La Mesa (Oct) — one of US's largest Oktoberfests; promotional prep</div>
+      </div>
+    </div>
+
+    <!-- Store 05: EMBR Lake Elsinore -->
+    <div class="store-card ca">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div>
+          <div class="store-name">EMBR Lake Elsinore</div>
+          <div class="store-location">Lake Elsinore, CA — Riverside County</div>
+        </div>
+        <span class="badge badge-ca">CA LIVE</span>
+      </div>
+      <div class="store-metrics">
+        <div class="metric">
+          <div class="metric-label">Total Transactions (All Time)</div>
+          <div class="metric-value">92.7K</div>
+          <div class="metric-delta down">↓ Lowest volume CA store</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Customer Base</div>
+          <div class="metric-value">46.9K</div>
+          <div class="metric-delta flat">Strong relative to transactions</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Active SKUs</div>
+          <div class="metric-value">29.6K</div>
+          <div class="metric-delta flat">Largest CA catalog</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Inventory Lines</div>
+          <div class="metric-value">2,041</div>
+          <div class="metric-delta up">↑ Largest inventory footprint</div>
+        </div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>🌿 Flower</span></div>
+        <div class="bar-track"><div class="bar-fill flower" style="width:38%"></div></div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>💨 Vape</span></div>
+        <div class="bar-track"><div class="bar-fill vape" style="width:23%"></div></div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>🔥 Pre-rolls</span></div>
+        <div class="bar-track"><div class="bar-fill preroll" style="width:21%"></div></div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>🍬 Edibles</span></div>
+        <div class="bar-track"><div class="bar-fill edible" style="width:12%"></div></div>
+      </div>
+      <div class="action-list">
+        <div class="action-item"><div class="action-dot red"></div>LOW TRANSACTIONS vs large inventory + customer file — conversion opportunity</div>
+        <div class="action-item"><div class="action-dot"></div>Market: young families (median 33), income $101K+, Phat Panda vertical integration brand</div>
+        <div class="action-item"><div class="action-dot green"></div>Regional draw: serves Canyon Lake, Wildomar, Hemet, Menifee (no local competition)</div>
+        <div class="action-item"><div class="action-dot blue"></div>Super Bloom season ended April — review revenue uplift from that period</div>
+        <div class="action-item"><div class="action-dot"></div>Storm Stadium (baseball): community presence + in-season promotions</div>
+      </div>
+    </div>
+
+    <!-- Store 06: Higher Level Greenfield -->
+    <div class="store-card ca">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div>
+          <div class="store-name">Higher Level Greenfield</div>
+          <div class="store-location">Greenfield, CA — Monterey County</div>
+        </div>
+        <span class="badge badge-ok">MONOPOLY MARKET</span>
+      </div>
+      <div class="store-metrics">
+        <div class="metric">
+          <div class="metric-label">Total Transactions (All Time)</div>
+          <div class="metric-value">21.3K</div>
+          <div class="metric-delta down">↓ Smallest store by volume</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Customer Base</div>
+          <div class="metric-value">58.5K</div>
+          <div class="metric-delta up">↑ Large relative to transactions!</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Active SKUs</div>
+          <div class="metric-value">4,521</div>
+          <div class="metric-delta flat">Smaller focused catalog</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Inventory Lines</div>
+          <div class="metric-value">3,512</div>
+          <div class="metric-delta flat">Deep relative to SKU count</div>
+        </div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>🌿 Flower (est.)</span></div>
+        <div class="bar-track"><div class="bar-fill flower" style="width:45%"></div></div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>💨 Vape (est.)</span></div>
+        <div class="bar-track"><div class="bar-fill vape" style="width:20%"></div></div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>🔥 Pre-rolls (est.)</span></div>
+        <div class="bar-track"><div class="bar-fill preroll" style="width:18%"></div></div>
+      </div>
+      <div class="store-bar">
+        <div class="bar-label"><span>🍬 Edibles (est.)</span></div>
+        <div class="bar-track"><div class="bar-fill edible" style="width:10%"></div></div>
+      </div>
+      <div class="action-list">
+        <div class="action-item"><div class="action-dot red"></div>LOW TRANSACTIONS vs VERY LARGE customer file (58.5K) — activation gap</div>
+        <div class="action-item"><div class="action-dot green"></div>Only dispensary in Greenfield + South Monterey County — monopoly position</div>
+        <div class="action-item"><div class="action-dot green"></div>Mission: lowest prices aligns perfectly with agricultural working-class community</div>
+        <div class="action-item"><div class="action-dot blue"></div>96.1% Hispanic community — Spanish-language marketing essential (KLOK-FM 99.5)</div>
+        <div class="action-item"><div class="action-dot"></div>Hwy 101 travelers: wine country visitors + Soledad/King City regional draw</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Events and Competitors -->
+  <div class="two-col">
+    <div class="info-card">
+      <h3>📅 Upcoming Events & Demand Spikes</h3>
+      <div class="event-item">
+        <div class="event-date">MAY 18</div>
+        <div class="event-info">
+          <div class="event-title">Armed Forces Day / Memorial Day Weekend</div>
+          <div class="event-detail">All stores — veteran discount promotion opportunity; travel weekend traffic</div>
+        </div>
+      </div>
+      <div class="event-item">
+        <div class="event-date">MAY 26</div>
+        <div class="event-info">
+          <div class="event-title">Memorial Day (Federal Holiday)</div>
+          <div class="event-detail">Strong retail demand day; summer kick-off; all stores should have specials</div>
+        </div>
+      </div>
+      <div class="event-item">
+        <div class="event-date" class="ca">JUNE</div>
+        <div class="event-info">
+          <div class="event-title">Northampton Pride (Pioneer Valley)</div>
+          <div class="event-detail">EMBR Northampton + Fyre Ants — major LGBTQ+ event; significant foot traffic spike</div>
+        </div>
+      </div>
+      <div class="event-item">
+        <div class="event-date ca">JUNE</div>
+        <div class="event-info">
+          <div class="event-title">SD County Fair (Del Mar, CA) + SDSU End of Year</div>
+          <div class="event-detail">EMBR La Mesa — fair draws regional traffic; SDSU students departing (last-purchase window)</div>
+        </div>
+      </div>
+      <div class="event-item">
+        <div class="event-date ca">JULY</div>
+        <div class="event-info">
+          <div class="event-title">San Diego Comic-Con International</div>
+          <div class="event-detail">EMBR La Mesa — 135,000 attendees; tourist capture opportunity</div>
+        </div>
+      </div>
+      <div class="event-item">
+        <div class="event-date">MAY</div>
+        <div class="event-info">
+          <div class="event-title">Cinco de Mayo (passed) / Spring agricultural season</div>
+          <div class="event-detail">Higher Level Greenfield — farm worker income peak; maintain in-stock on value flower</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3>🔍 Competitor Alert Summary</h3>
+      <div class="competitor-item">
+        <div><div class="comp-name">OZ Club (Easthampton)</div><div class="comp-market">Fyre Ants trade area</div></div>
+        <span class="comp-signal signal-threat">🚨 NEW ENTRANT</span>
+      </div>
+      <div class="competitor-item">
+        <div><div class="comp-name">Honey Northampton</div><div class="comp-market">EMBR Northampton trade area</div></div>
+        <span class="comp-signal signal-threat">⚠️ ACTIVE</span>
+      </div>
+      <div class="competitor-item">
+        <div><div class="comp-name">INSA Easthampton</div><div class="comp-market">Fyre Ants trade area</div></div>
+        <span class="comp-signal signal-threat">⚠️ LARGE OPERATOR</span>
+      </div>
+      <div class="competitor-item">
+        <div><div class="comp-name">Healing Tree (Lake Elsinore)</div><div class="comp-market">EMBR Lake Elsinore</div></div>
+        <span class="comp-signal signal-watch">👁 PRICE LEADER</span>
+      </div>
+      <div class="competitor-item">
+        <div><div class="comp-name">Cookies / Jungle Boys (La Mesa)</div><div class="comp-market">EMBR La Mesa</div></div>
+        <span class="comp-signal signal-threat">⚠️ PREMIUM BRAND</span>
+      </div>
+      <div class="competitor-item">
+        <div><div class="comp-name">Urbn Leaf (2 locations, La Mesa)</div><div class="comp-market">EMBR La Mesa</div></div>
+        <span class="comp-signal signal-watch">👁 WELL REVIEWED</span>
+      </div>
+      <div class="competitor-item">
+        <div><div class="comp-name">Zaza Green / 6Bricks (Springfield)</div><div class="comp-market">EMBR Springfield area</div></div>
+        <span class="comp-signal signal-watch">👁 MONITOR</span>
+      </div>
+      <div class="competitor-item">
+        <div><div class="comp-name">Greenfield Market</div><div class="comp-market">Higher Level Greenfield</div></div>
+        <span class="comp-signal signal-ok">✅ MONOPOLY POSITION</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary/Action Items -->
+  <div class="section-title">Weekly Priority Actions</div>
+  <div class="summary-row">
+    <div class="summary-card">
+      <h3>🔧 Operational Priorities</h3>
+      <ul>
+        <li><span class="li-icon">🚨</span> Resolve EMBR Springfield API auth immediately</li>
+        <li><span class="li-icon">📋</span> Audit Greenfield transaction gap (58K customers, 21K transactions)</li>
+        <li><span class="li-icon">📋</span> Audit Lake Elsinore transaction gap (47K customers, 93K transactions)</li>
+        <li><span class="li-icon">💰</span> Review MA margin impact of $5.36/g average price floor</li>
+        <li><span class="li-icon">📦</span> Lake Elsinore: 2,041 inventory lines — audit for dead stock</li>
+      </ul>
+    </div>
+    <div class="summary-card">
+      <h3>📣 Marketing Priorities</h3>
+      <ul>
+        <li><span class="li-icon">🏳️‍🌈</span> Northampton: Plan Pride Month (June) promotions NOW</li>
+        <li><span class="li-icon">🎯</span> La Mesa: Optimize Weedmaps profile (61-competitor market)</li>
+        <li><span class="li-icon">💬</span> Greenfield: Launch Spanish-language marketing (KLOK-FM, social)</li>
+        <li><span class="li-icon">🎓</span> La Mesa: SDSU semester-end promotions (May)</li>
+        <li><span class="li-icon">🏅</span> All stores: Veteran/Memorial Day discount campaign</li>
+      </ul>
+    </div>
+    <div class="summary-card">
+      <h3>📊 Research & Intelligence</h3>
+      <ul>
+        <li><span class="li-icon">🔍</span> Pull OZ Club (Easthampton) menu + pricing — new threat to Fyre Ants</li>
+        <li><span class="li-icon">🔍</span> Pull Honey Northampton Weedmaps menu + reviews</li>
+        <li><span class="li-icon">🔍</span> Pull Cookies + Jungle Boys La Mesa pricing data</li>
+        <li><span class="li-icon">🔍</span> Pull Healing Tree Lake Elsinore pricing comparison</li>
+        <li><span class="li-icon">📁</span> Store all competitor data in Competitive Research folders</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Phat Panda Group Retail Analytics | Weekly Dashboard | Week of 2026-05-11 | 
+  Data Sources: Dutchie POS API (5 active stores) + External Market Research (Census ACS 2024, Weedmaps, MA CCC, CA DCC) | 
+  Dashboard saved to: Dashboards/WEEKLY_DASHBOARD_ALL_STORES_2026-05-11.html
+</div>
+
+</body>
+</html>

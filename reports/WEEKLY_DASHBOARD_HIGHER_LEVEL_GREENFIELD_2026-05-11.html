@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Higher Level Greenfield — Weekly Dashboard | May 11–17, 2026</title>
+<style>
+  :root{--bg:#0d0f14;--card:#171c26;--accent:#eab308;--warn:#f5c842;--good:#4ade80;--bad:#f87171;--blue:#60a5fa;--text:#e2e8f0;--muted:#94a3b8;--border:#2d3748;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;padding:20px;}
+  .header{background:linear-gradient(135deg,#1c1600,#0f0e00);border:1px solid #713f12;border-radius:12px;padding:24px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;}
+  .store-badge{background:var(--accent);color:#000;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;}
+  h1{font-size:22px;font-weight:700;margin-bottom:4px;}
+  .subtitle{color:var(--muted);font-size:13px;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;}
+  .card-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .kpi-val{font-size:26px;font-weight:800;margin-bottom:2px;}
+  .section-title{font-size:15px;font-weight:700;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .monopoly-badge{display:inline-flex;align-items:center;gap:6px;background:#1c2b00;border:1px solid #4d7c0f;border-radius:8px;padding:8px 14px;margin-bottom:16px;font-size:12px;color:#84cc16;font-weight:600;}
+  .action-item{padding:10px 12px;border-radius:8px;margin-bottom:8px;line-height:1.4;}
+  .action-critical{background:#2d0a0a;border-left:3px solid var(--bad);}
+  .action-high{background:#2d1f00;border-left:3px solid var(--warn);}
+  .action-medium{background:#0a1f2d;border-left:3px solid var(--blue);}
+  .action-label{font-size:10px;letter-spacing:1px;font-weight:700;padding:2px 6px;border-radius:4px;margin-right:6px;}
+  .lbl-critical{background:#7f1d1d;color:#fca5a5;}
+  .lbl-high{background:#78350f;color:#fde68a;}
+  .lbl-medium{background:#1e3a5f;color:#93c5fd;}
+  .event-row{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);}
+  .event-row:last-child{border-bottom:none;}
+  .event-date{font-size:11px;color:var(--warn);font-weight:700;width:80px;flex-shrink:0;}
+  .event-name{font-weight:600;font-size:13px;}
+  .event-opp{font-size:11px;color:var(--blue);margin-top:2px;}
+  .promo-live{background:#1a1400;border:1px solid #713f12;border-radius:8px;padding:10px;margin-bottom:8px;}
+  .promo-live-title{font-weight:700;font-size:12px;color:var(--accent);margin-bottom:4px;}
+  .promo-live-body{font-size:11px;color:var(--muted);}
+  .bilingual-alert{background:linear-gradient(135deg,#1c1600,#0f0e00);border:1px solid #b45309;border-radius:8px;padding:12px;margin-bottom:14px;}
+  .footer{text-align:center;color:var(--muted);font-size:11px;margin-top:24px;padding-top:16px;border-top:1px solid var(--border);}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div style="margin-bottom:8px;"><span class="store-badge">STORE 06 — MONOPOLY MARKET</span></div>
+    <h1>Higher Level Greenfield, CA</h1>
+    <div class="subtitle">Weekly Operations Dashboard | Week of May 11–17, 2026 | 48 4th St, Greenfield, CA 93927</div>
+  </div>
+  <div style="text-align:right">
+    <div style="font-size:11px;color:var(--muted)">Market Position</div>
+    <div style="font-size:20px;font-weight:800;color:var(--accent)">1 of 1 ✅</div>
+    <div style="font-size:11px;color:var(--muted)">Only dispensary in Greenfield</div>
+  </div>
+</div>
+
+<div class="monopoly-badge">
+  ✅ MONOPOLY CONFIRMED — 1 dispensary listed on Weedmaps for Greenfield, CA. Nearest competitors: 25–30+ miles away. Trade area: ~70,000 residents (Greenfield + Soledad + Gonzales + King City).
+</div>
+
+<!-- KPIs -->
+<div class="grid-3">
+  <div class="card">
+    <div class="card-title">All-time Transactions</div>
+    <div class="kpi-val" style="color:var(--accent)">21,281</div>
+    <div style="font-size:12px;color:var(--muted);margin-top:4px;">May sync pending for live data</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Registered Customers</div>
+    <div class="kpi-val" style="color:var(--bad)">58,493</div>
+    <div style="font-size:12px;color:var(--bad);margin-top:4px;">⚠ Large unrealized CRM</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Active SKUs</div>
+    <div class="kpi-val" style="color:var(--warn)">3,512</div>
+    <div style="font-size:12px;color:var(--muted);margin-top:4px;">Deepest inventory in portfolio</div>
+  </div>
+</div>
+
+<div class="bilingual-alert">
+  <div style="font-weight:700;color:#fb923c;margin-bottom:6px;">🌎 BILINGUAL MARKETING IMPERATIVE — 96.1% Hispanic Community</div>
+  <div style="font-size:12px;color:#fed7aa;">All promotions, staff communications, and signage must be in Spanish AND English. Weekly Spanish-language radio spots on KLOK-FM 99.5 (local Greenfield) and KDON-FM 102.5 should be running. CRM communications must include Spanish-language SMS/email. This is not optional — it is table stakes for this market.</div>
+</div>
+
+<div class="grid-2">
+
+  <div class="card">
+    <div class="section-title">This Week's Live Promotions (Weedmaps Active)</div>
+    <div class="promo-live">
+      <div class="promo-live-title">🟡 ONGOING: $1 Preroll with every purchase</div>
+      <div class="promo-live-body">Pre-selected unit added at checkout. Strong community value-add. Ensure in-store signage highlights this offer in Spanish.</div>
+    </div>
+    <div class="promo-live">
+      <div class="promo-live-title">🟡 Nickel Preroll Saturday: $0.05 per $30 spent</div>
+      <div class="promo-live-body">Recurring Saturday traffic driver. Community-friendly. Post on WhatsApp community groups + Weedmaps.</div>
+    </div>
+    <div class="promo-live">
+      <div class="promo-live-title">🟢 Weekly Brand Rotation (40% off select brands)</div>
+      <div class="promo-live-body">Maintain weekly rotation: Raw Garden, Papa's Herb, Kaizen, Heavy Hitters, Almora — keeps menu feeling fresh and drives return visits for "this week's deal."</div>
+    </div>
+    <div style="margin-top:12px;padding:10px;background:#1a1400;border-radius:6px;font-size:11px;color:var(--accent);">
+      ⭐ Store reputation: 4.9★ / 932+ reviews. "Everyone is friendly, helpful, and joy to be around" (Leafly Feb 2026). Staff quality is a key competitive moat — protect and reinforce it.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Weekly Priorities + Upcoming Events</div>
+    <div class="action-item action-critical">
+      <span class="action-label lbl-critical">CRITICAL</span>Customer re-activation: Begin CRM segmentation. Identify all registered customers with 0 transactions OR last transaction 90+ days ago. Prepare bilingual SMS/email re-activation campaign for launch this week.
+    </div>
+    <div class="action-item action-high">
+      <span class="action-label lbl-high">HIGH</span>Memorial Day weekend (May 25-26): Prepare "Día del Recuerdo" themed deals for the Hispanic community + standard Memorial Day bulk deals. Bilingual promotional materials. Extended hours.
+    </div>
+    <div class="action-item action-high">
+      <span class="action-label lbl-high">HIGH</span>Google Business Profile: Confirm listing is fully optimized. "Dispensary near Greenfield", "dispensary Soledad area", "dispensary King City CA" should all show Higher Level as the top result. Request Spanish-language reviews from satisfied customers.
+    </div>
+    <div class="action-item action-medium">
+      <span class="action-label lbl-medium">MEDIUM</span>Harvest Festival planning (Sep-Oct): Contact Greenfield city/organizers now to secure booth or sponsorship at the annual Harvest Festival. This is the largest community event of the year.
+    </div>
+
+    <div style="margin-top:14px;"><div class="section-title">Upcoming Demand Drivers</div></div>
+    <div class="event-row">
+      <div class="event-date">May 25–26</div>
+      <div><div class="event-name">Memorial Day Weekend</div><div class="event-opp">📈 National cannabis peak; agricultural workers off work</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-date">Jun–Aug</div>
+      <div><div class="event-name">Peak Agricultural Season</div><div class="event-opp">🌽 Highest farm worker wages; highest discretionary spending period</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-date">Sep–Oct</div>
+      <div><div class="event-name">Harvest Festival + Harvest Season</div><div class="event-opp">🌾 Peak ag income + community events = strongest sales period of year</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-date">Oct–Nov</div>
+      <div><div class="event-name">Día de los Muertos</div><div class="event-opp">💀 Major cultural event; themed promotions critical for community connection</div></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Phat Panda Group — Retail Analytics System | Higher Level Greenfield Store 06 | Week of May 11–17, 2026<br>
+  Data sources: Dutchie POS (2026-05-08), Weedmaps (Apr 2026 promotions), Leafly, Yelp, CA DCC
+</div>
+
+</body>
+</html>

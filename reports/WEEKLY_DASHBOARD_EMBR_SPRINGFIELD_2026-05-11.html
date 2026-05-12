@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMBR Springfield — Weekly Dashboard | Week of May 11–17, 2026</title>
+<style>
+  :root{--bg:#0d0f14;--card:#171c26;--card2:#1e2535;--accent:#ff6b35;--warn:#f5c842;--good:#4ade80;--bad:#f87171;--blue:#60a5fa;--purple:#a78bfa;--text:#e2e8f0;--muted:#94a3b8;--border:#2d3748;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;padding:20px;}
+  .header{background:linear-gradient(135deg,#1e2535,#2d1f3d);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;}
+  .store-badge{background:var(--bad);color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;}
+  h1{font-size:22px;font-weight:700;margin-bottom:4px;}
+  .subtitle{color:var(--muted);font-size:13px;}
+  .alert-banner{background:linear-gradient(90deg,#7f1d1d,#450a0a);border:1px solid var(--bad);border-radius:10px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+  .alert-icon{font-size:28px;}
+  .alert-title{font-weight:700;color:var(--bad);font-size:16px;}
+  .alert-body{color:#fca5a5;font-size:13px;margin-top:4px;line-height:1.5;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;}
+  .card-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+  .kpi-val{font-size:28px;font-weight:800;margin-bottom:2px;}
+  .kpi-sub{font-size:12px;color:var(--muted);}
+  .offline{color:var(--bad);}
+  .status-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);}
+  .status-row:last-child{border-bottom:none;}
+  .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .dot-red{background:var(--bad);}
+  .dot-yellow{background:var(--warn);}
+  .dot-green{background:var(--good);}
+  .status-label{flex:1;color:var(--text);}
+  .status-value{color:var(--muted);font-size:12px;}
+  .action-item{padding:10px 12px;border-radius:8px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px;}
+  .action-critical{background:#2d0a0a;border-left:3px solid var(--bad);}
+  .action-high{background:#2d1f00;border-left:3px solid var(--warn);}
+  .action-medium{background:#0a1f2d;border-left:3px solid var(--blue);}
+  .action-num{font-weight:800;color:var(--muted);width:20px;flex-shrink:0;}
+  .action-text{flex:1;line-height:1.4;}
+  .action-label{font-size:10px;letter-spacing:1px;font-weight:700;padding:2px 6px;border-radius:4px;margin-right:6px;}
+  .lbl-critical{background:#7f1d1d;color:#fca5a5;}
+  .lbl-high{background:#78350f;color:#fde68a;}
+  .lbl-medium{background:#1e3a5f;color:#93c5fd;}
+  .competitor-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);}
+  .competitor-row:last-child{border-bottom:none;}
+  .comp-name{font-weight:600;}
+  .comp-threat{font-size:11px;padding:2px 8px;border-radius:10px;}
+  .threat-high{background:#7f1d1d;color:#fca5a5;}
+  .threat-med{background:#78350f;color:#fde68a;}
+  .threat-low{background:#1a2f1a;color:#86efac;}
+  .event-item{padding:8px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;}
+  .event-item:last-child{border-bottom:none;}
+  .event-date{font-size:11px;color:var(--warn);font-weight:700;width:80px;flex-shrink:0;}
+  .event-name{flex:1;}
+  .event-opportunity{font-size:11px;color:var(--blue);}
+  .section-title{font-size:15px;font-weight:700;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .market-stat{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);}
+  .market-stat:last-child{border-bottom:none;}
+  .market-label{color:var(--muted);}
+  .market-value{font-weight:600;}
+  .footer{text-align:center;color:var(--muted);font-size:11px;margin-top:24px;padding-top:16px;border-top:1px solid var(--border);}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div style="margin-bottom:8px;"><span class="store-badge">STORE 01 — OFFLINE</span></div>
+    <h1>EMBR Springfield, MA</h1>
+    <div class="subtitle">Weekly Dashboard | Week of May 11–17, 2026 | Monitoring Mode</div>
+  </div>
+  <div style="text-align:right">
+    <div style="font-size:11px;color:var(--muted)">Generated</div>
+    <div style="font-size:16px;font-weight:700;color:var(--bad)">AUTH FAILED</div>
+    <div style="font-size:11px;color:var(--muted)">No POS Data Available</div>
+  </div>
+</div>
+
+<!-- Alert Banner -->
+<div class="alert-banner">
+  <div class="alert-icon">🔴</div>
+  <div>
+    <div class="alert-title">CRITICAL: Dutchie POS Authentication Failure — Store Data Unavailable</div>
+    <div class="alert-body">All Dutchie API endpoints returning 401 (unauthorized) for EMBR Springfield. Transactions, inventory, and customer data cannot be retrieved. This prevents any performance analysis. Estimated revenue visibility gap: unknown (all Springfield sales blind). Escalation to Dutchie Support required immediately.</div>
+  </div>
+</div>
+
+<!-- KPI Row (No Data) -->
+<div class="grid-3">
+  <div class="card">
+    <div class="card-title">Transactions (WTD)</div>
+    <div class="kpi-val offline">—</div>
+    <div class="kpi-sub">Auth failed — no data</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Revenue (WTD Est.)</div>
+    <div class="kpi-val offline">—</div>
+    <div class="kpi-sub">Auth failed — no data</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Active SKUs</div>
+    <div class="kpi-val offline">—</div>
+    <div class="kpi-sub">Auth failed — no data</div>
+  </div>
+</div>
+
+<div class="grid-2">
+
+  <!-- Auth Status -->
+  <div class="card">
+    <div class="section-title">Authentication Status</div>
+    <div class="status-row"><div class="dot dot-red"></div><div class="status-label">Dutchie API / whoami endpoint</div><div class="status-value">FAILED (401)</div></div>
+    <div class="status-row"><div class="dot dot-red"></div><div class="status-label">Transactions endpoint</div><div class="status-value">UNAVAILABLE</div></div>
+    <div class="status-row"><div class="dot dot-red"></div><div class="status-label">Inventory endpoint</div><div class="status-value">UNAVAILABLE</div></div>
+    <div class="status-row"><div class="dot dot-red"></div><div class="status-label">Customer data</div><div class="status-value">UNAVAILABLE</div></div>
+    <div class="status-row"><div class="dot dot-red"></div><div class="status-label">Historical data</div><div class="status-value">BLIND — no baseline</div></div>
+    <div style="margin-top:12px;padding:10px;background:#1a0a0a;border-radius:6px;font-size:12px;color:#fca5a5;">
+      ⚠️ API key c67cd10c… appears invalid or revoked. Contact Dutchie Support (support@dutchie.com) to restore API key scope. Per API documentation: "API key is wrong or malformed — Check config.py."
+    </div>
+  </div>
+
+  <!-- Competitive Landscape -->
+  <div class="card">
+    <div class="section-title">Springfield Competitor Monitor</div>
+    <div class="competitor-row">
+      <div><div class="comp-name">INSA Springfield</div><div style="font-size:11px;color:var(--muted)">Multi-state operator; full menu</div></div>
+      <span class="comp-threat threat-high">HIGH</span>
+    </div>
+    <div class="competitor-row">
+      <div><div class="comp-name">Zaza Green</div><div style="font-size:11px;color:var(--muted)">"Best dispensary in MA" claims; active marketing</div></div>
+      <span class="comp-threat threat-high">HIGH</span>
+    </div>
+    <div class="competitor-row">
+      <div><div class="comp-name">6Bricks</div><div style="font-size:11px;color:var(--muted)">Local operator; volume play pivoting</div></div>
+      <span class="comp-threat threat-med">MED</span>
+    </div>
+    <div class="competitor-row">
+      <div><div class="comp-name">Cannabis Connection</div><div style="font-size:11px;color:var(--muted)">Multi-location; broad coverage</div></div>
+      <span class="comp-threat threat-med">MED</span>
+    </div>
+    <div class="competitor-row">
+      <div><div class="comp-name">Liberty Cannabis</div><div style="font-size:11px;color:var(--muted)">Established; full menu</div></div>
+      <span class="comp-threat threat-low">LOW</span>
+    </div>
+    <div class="competitor-row">
+      <div><div class="comp-name">Affinity (W. Springfield)</div><div style="font-size:11px;color:var(--muted)">Adjacent suburb; moderate draw</div></div>
+      <span class="comp-threat threat-low">LOW</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- Market Context -->
+<div class="card" style="margin-bottom:20px;">
+  <div class="section-title">Massachusetts Market Context — Week of May 11, 2026</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;">
+    <div>
+      <div class="market-stat"><span class="market-label">2025 Total Sales</span><span class="market-value" style="color:var(--good)">$1.65B (record)</span></div>
+      <div class="market-stat"><span class="market-label">2026 YTD (Apr 26)</span><span class="market-value">$562.6M</span></div>
+      <div class="market-stat"><span class="market-label">Jan 2026 Sales</span><span class="market-value">$147M</span></div>
+      <div class="market-stat"><span class="market-label">Feb 2026 Sales</span><span class="market-value">$134M</span></div>
+    </div>
+    <div>
+      <div class="market-stat"><span class="market-label">YoY Change</span><span class="market-value" style="color:var(--bad)">-2.3%</span></div>
+      <div class="market-stat"><span class="market-label">Avg Item Price (Feb)</span><span class="market-value">$17.69</span></div>
+      <div class="market-stat"><span class="market-label">Pre-rolls YoY</span><span class="market-value" style="color:var(--good)">+3.1%</span></div>
+      <div class="market-stat"><span class="market-label">Infused Pre-roll YoY</span><span class="market-value" style="color:var(--good)">+27.2%</span></div>
+    </div>
+    <div>
+      <div class="market-stat"><span class="market-label">CT Border Dynamic</span><span class="market-value" style="color:var(--good)">ACTIVE ✓</span></div>
+      <div class="market-stat"><span class="market-label">Market Closures</span><span class="market-value" style="color:var(--bad)">13 in last fiscal yr</span></div>
+      <div class="market-stat"><span class="market-label">Social Consumption</span><span class="market-value">New licenses 2026</span></div>
+      <div class="market-stat"><span class="market-label">280E Tax Burden</span><span class="market-value" style="color:var(--bad)">Still active</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Upcoming Events -->
+<div class="grid-2">
+  <div class="card">
+    <div class="section-title">Springfield Event Calendar — May–September 2026</div>
+    <div class="event-item">
+      <div class="event-date">May 26</div>
+      <div><div class="event-name">Memorial Day Weekend</div><div class="event-opportunity">📈 Peak cannabis purchase weekend nationally</div></div>
+    </div>
+    <div class="event-item">
+      <div class="event-date">June 2026</div>
+      <div><div class="event-name">Springfield Pride</div><div class="event-opportunity">🏳️‍🌈 LGBTQ+ community event — promotional opportunity</div></div>
+    </div>
+    <div class="event-item">
+      <div class="event-date">Summer 2026</div>
+      <div><div class="event-name">Springfield Jazz & Roots Festival</div><div class="event-opportunity">🎵 Music event; local tourism driver</div></div>
+    </div>
+    <div class="event-item">
+      <div class="event-date">Sep–Oct 2026</div>
+      <div><div class="event-name">Big E / Eastern States Exposition</div><div class="event-opportunity">🎡 ~1.4M visitors; West Springfield; 10-min drive</div></div>
+    </div>
+    <div class="event-item">
+      <div class="event-date">Year-round</div>
+      <div><div class="event-name">Basketball Hall of Fame</div><div class="event-opportunity">🏀 Year-round tourist draw; induction events spike</div></div>
+    </div>
+    <div class="event-item">
+      <div class="event-date">Nov–Jan</div>
+      <div><div class="event-name">Bright Nights at Forest Park</div><div class="event-opportunity">🎄 Major holiday season draw; cross-draw from region</div></div>
+    </div>
+  </div>
+
+  <!-- Weekly Actions -->
+  <div class="card">
+    <div class="section-title">Weekly Priority Actions</div>
+    <div class="action-item action-critical">
+      <div class="action-num">1</div>
+      <div class="action-text"><span class="action-label lbl-critical">CRITICAL</span>Escalate Dutchie API auth failure to Dutchie Support (support@dutchie.com). Request API key scope restoration. Reference endpoint list from API_DOCUMENTATION.txt.</div>
+    </div>
+    <div class="action-item action-critical">
+      <div class="action-num">2</div>
+      <div class="action-text"><span class="action-label lbl-critical">CRITICAL</span>Confirm whether EMBR Springfield is operationally open or temporarily closed. If open, auth restoration is more urgent — revenue is being earned but not tracked.</div>
+    </div>
+    <div class="action-item action-high">
+      <div class="action-num">3</div>
+      <div class="action-text"><span class="action-label lbl-high">HIGH</span>Research MA social consumption license types (3 approved by CCC late 2025). Evaluate whether EMBR Springfield location is suitable for social consumption application in 2026.</div>
+    </div>
+    <div class="action-item action-medium">
+      <div class="action-num">4</div>
+      <div class="action-text"><span class="action-label lbl-medium">MEDIUM</span>Pull competitor Google Business Profile data for INSA Springfield, Zaza Green, 6Bricks — ratings, review counts, recent reviews. Benchmark vs EMBR Springfield's existing profile.</div>
+    </div>
+    <div class="action-item action-medium">
+      <div class="action-num">5</div>
+      <div class="action-text"><span class="action-label lbl-medium">MEDIUM</span>Prepare Springfield Pride (June) marketing plan NOW. Even if auth is unresolved, marketing assets can be ready for activation when store comes back online.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Phat Panda Group — Retail Analytics System | EMBR Springfield Store 01 | Week of May 11–17, 2026<br>
+  Data sources: Dutchie POS (AUTH FAILED), External research (May 11 2026), MA CCC, Weedmaps, Boston Globe
+</div>
+
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMBR Lake Elsinore — Weekly Dashboard | May 11, 2026</title>
+<style>
+  :root { --bg:#0f1117; --surface:#1a1d2e; --card:#222536; --border:#2e3250; --accent:#7c5cbf; --accent2:#4fc3f7; --accent3:#81c784; --accent4:#ffb74d; --accent5:#ef5350; --text:#e8eaf6; --muted:#9fa8c7; --white:#ffffff; --ca:#f4a261; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; font-size:14px; }
+  .header { background:linear-gradient(135deg,#1a3040,#0d2437); padding:24px 32px; border-bottom:1px solid var(--border); }
+  .header h1 { font-size:20px; font-weight:700; color:var(--white); }
+  .header .meta { color:var(--muted); font-size:12px; margin-top:5px; }
+  .badge { display:inline-block; padding:3px 10px; border-radius:10px; font-size:11px; font-weight:600; margin-left:10px; }
+  .badge-ca { background:#f4a26122; color:var(--ca); border:1px solid #f4a26144; }
+  .badge-ok { background:#2e7d3222; color:var(--accent3); border:1px solid #2e7d3244; }
+  .badge-strong { background:#7c5cbf22; color:var(--accent); border:1px solid #7c5cbf44; }
+  .container { max-width:1200px; margin:0 auto; padding:24px 32px; }
+  .grid4 { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:24px; }
+  .kpi { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; }
+  .kpi-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.8px; }
+  .kpi-val { font-size:22px; font-weight:700; color:var(--white); margin-top:4px; }
+  .kpi-sub { font-size:11px; color:var(--accent3); margin-top:3px; }
+  .kpi-sub.down { color:var(--accent5); }
+  .kpi-sub.warn { color:var(--accent4); }
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:24px; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px; }
+  .card h2 { font-size:13px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.8px; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--border); }
+  .row { display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid var(--border); font-size:13px; }
+  .row:last-child { border-bottom:none; }
+  .row .label { color:var(--muted); }
+  .row .val { color:var(--white); font-weight:600; }
+  .alert { background:var(--surface); border:1px solid var(--accent5); border-radius:8px; padding:12px 16px; margin-bottom:10px; font-size:12px; display:flex; gap:10px; align-items:flex-start; }
+  .alert.warn { border-color:var(--accent4); }
+  .alert.info { border-color:var(--accent2); }
+  .alert.ok { border-color:var(--accent3); }
+  .alert-icon { font-size:16px; flex-shrink:0; }
+  .bar-row { margin-bottom:10px; }
+  .bar-row .bl { display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-bottom:3px; }
+  .bar-track { background:var(--surface); border-radius:3px; height:7px; overflow:hidden; }
+  .bar-fill { height:100%; border-radius:3px; }
+  .f-flower { background:var(--accent3); }
+  .f-vape { background:var(--accent2); }
+  .f-pre { background:var(--accent4); }
+  .f-edible { background:var(--accent); }
+  .section-title { font-size:12px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin:20px 0 10px; border-left:3px solid var(--ca); padding-left:10px; }
+  .full-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px; margin-bottom:18px; }
+  .full-card h2 { font-size:13px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.8px; margin-bottom:14px; }
+  table { width:100%; border-collapse:collapse; }
+  th { background:var(--surface); padding:8px 12px; text-align:left; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.7px; }
+  td { padding:10px 12px; border-bottom:1px solid var(--border); font-size:12px; }
+  tr:last-child td { border-bottom:none; }
+  .tag { display:inline-block; padding:2px 8px; border-radius:5px; font-size:10px; background:var(--surface); color:var(--muted); border:1px solid var(--border); margin:1px; }
+  .tag.threat { background:#ef535022; color:var(--accent5); border-color:#ef535044; }
+  .tag.caution { background:#ffb74d22; color:var(--accent4); border-color:#ffb74d44; }
+  .anomaly-box { background:var(--surface); border:2px solid var(--accent4); border-radius:10px; padding:16px 20px; margin-bottom:18px; }
+  .anomaly-box h3 { font-size:13px; font-weight:600; color:var(--accent4); margin-bottom:10px; }
+  .footer { text-align:center; padding:16px; color:var(--muted); font-size:11px; border-top:1px solid var(--border); }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🏪 EMBR Lake Elsinore — Weekly Dashboard
+    <span class="badge badge-ca">CA Store</span>
+    <span class="badge badge-ok">✅ API Live</span>
+    <span class="badge badge-strong">📦 Largest Inventory</span>
+  </h1>
+  <div class="meta">Week of May 11–17, 2026 | Lake Elsinore, CA — Riverside County | Phat Panda Group</div>
+</div>
+<div class="container">
+
+  <div class="grid4">
+    <div class="kpi">
+      <div class="kpi-label">All-Time Transactions</div>
+      <div class="kpi-val">92,707</div>
+      <div class="kpi-sub">Newest CA store (Oct 2023)</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Customer Base</div>
+      <div class="kpi-val">46,899</div>
+      <div class="kpi-sub warn">⚠️ 2.0 txn/customer avg</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Active Inventory</div>
+      <div class="kpi-val">2,041</div>
+      <div class="kpi-sub">#1 in Portfolio — deepest SKU count</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Local Storefronts</div>
+      <div class="kpi-val">8</div>
+      <div class="kpi-sub">vs 61 in La Mesa — favorable</div>
+    </div>
+  </div>
+
+  <div class="anomaly-box">
+    <h3>🔍 DATA ANOMALY — REQUIRES INVESTIGATION</h3>
+    <div style="font-size:12px; color:var(--text); line-height:1.6">
+      <strong>Customer-to-Transaction Ratio: 46,899 customers / 92,707 transactions = 2.0 avg visits per customer.</strong>
+      Portfolio average is ~4.0. Possible causes: (1) Delivery market suppressing in-store repeat visits — <em>however, municipal code prohibits delivery in Lake Elsinore</em>. (2) High one-time / tourist traffic (Walker Canyon Super Bloom, passing traffic). (3) Significant cash transaction volume not captured in Dutchie loyalty. (4) Black market competition for repeat purchases in the price-sensitive Riverside County market.
+      <br><br>
+      <strong>Action this week:</strong> Pull transaction frequency distribution from Dutchie. Segment customers into 1-visit, 2–5 visit, and 6+ visit buckets. If 1-visit = &gt;50% of customers, activate re-engagement campaign immediately.
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <h2>📊 Store Metrics</h2>
+      <div class="row"><span class="label">Total Transactions (All-Time)</span><span class="val">92,707</span></div>
+      <div class="row"><span class="label">Customer Records</span><span class="val">46,899</span></div>
+      <div class="row"><span class="label">Inventory Lines</span><span class="val">2,041 (🏆 #1 portfolio)</span></div>
+      <div class="row"><span class="label">Store Open Since</span><span class="val">Oct 2023</span></div>
+      <div class="row"><span class="label">POS Terminals</span><span class="val">4 Registers</span></div>
+      <div class="row"><span class="label">Delivery</span><span class="val" style="color:var(--accent5)">❌ Prohibited (municipal code)</span></div>
+      <div class="row"><span class="label">API Auth Status</span><span class="val" style="color:var(--accent3)">✅ OK</span></div>
+    </div>
+    <div class="card">
+      <h2>🛒 Product Category Mix (CA State Benchmarks)</h2>
+      <div class="bar-row"><div class="bl"><span>🌿 Flower</span><span>~38%</span></div><div class="bar-track"><div class="bar-fill f-flower" style="width:38%"></div></div></div>
+      <div class="bar-row"><div class="bl"><span>💨 Vape</span><span>~25%</span></div><div class="bar-track"><div class="bar-fill f-vape" style="width:25%"></div></div></div>
+      <div class="bar-row"><div class="bl"><span>🚬 Pre-rolls (+12% YoY)</span><span>~20%</span></div><div class="bar-track"><div class="bar-fill f-pre" style="width:20%"></div></div></div>
+      <div class="bar-row"><div class="bl"><span>🍬 Edibles</span><span>~12%</span></div><div class="bar-track"><div class="bar-fill f-edible" style="width:12%"></div></div></div>
+      <div style="margin-top:12px; font-size:11px; color:var(--muted)">NOTE: 2,041 inventory lines = deepest SKU count in portfolio. Audit for dead stock vs strategic depth. Price-sensitive family-oriented market may over-index on value flower and pre-rolls.</div>
+    </div>
+  </div>
+
+  <div class="section-title">Market Context — Lake Elsinore, CA</div>
+  <div class="two-col">
+    <div class="card">
+      <h2>📍 Location Intelligence</h2>
+      <div class="row"><span class="label">City Population</span><span class="val">72,461</span></div>
+      <div class="row"><span class="label">Median HHI</span><span class="val">$101,888</span></div>
+      <div class="row"><span class="label">Median Age</span><span class="val">33</span></div>
+      <div class="row"><span class="label">Hispanic Population</span><span class="val">51.6%</span></div>
+      <div class="row"><span class="label">Community Character</span><span class="val">Family-oriented, growing suburb</span></div>
+      <div class="row"><span class="label">Key Access</span><span class="val">I-15 corridor; serves Canyon Lake, Wildomar, Menifee, Perris</span></div>
+      <div class="row"><span class="label">Top Price Competitor</span><span class="val">Healing Tree (~$82.63/oz bulk avg)</span></div>
+      <div class="row"><span class="label">Vertical Integration</span><span class="val">✅ Phat Panda — key differentiator</span></div>
+    </div>
+    <div class="card">
+      <h2>🗓️ May Events & Demand Drivers</h2>
+      <div class="row"><span class="label">Memorial Day (May 26)</span><span class="val">Holiday + lakeside recreation traffic</span></div>
+      <div class="row"><span class="label">Lake Elsinore Storm (baseball)</span><span class="val">Minor league games = consistent weekend traffic</span></div>
+      <div class="row"><span class="label">Lake Recreation (May–Sep)</span><span class="val">Boating, wakeboarding, camping visitors</span></div>
+      <div class="row"><span class="label">Walker Canyon Super Bloom</span><span class="val">March–April 2027 — plan SKU depth NOW</span></div>
+      <div class="row"><span class="label">Regional corridor customers</span><span class="val">Canyon Lake, Wildomar, Menifee, Perris</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">Competitor Intelligence</div>
+  <div class="full-card">
+    <h2>Lake Elsinore Cannabis Competitive Landscape</h2>
+    <table>
+      <tr>
+        <th>Competitor</th>
+        <th>Positioning</th>
+        <th>Threat Level</th>
+        <th>Action Needed</th>
+      </tr>
+      <tr>
+        <td><strong>Healing Tree</strong></td>
+        <td>Bulk flower value model — avg ~$82.63/oz. Primary price-point competitor in region.</td>
+        <td><span class="tag threat">🔥 HIGH — Price</span></td>
+        <td>Pull Weedmaps menu. Benchmark oz pricing. Review EMBR bulk flower pricing strategy.</td>
+      </tr>
+      <tr>
+        <td><strong>Other local storefronts (×7)</strong></td>
+        <td>8 total Weedmaps storefronts in Lake Elsinore area — relatively thin market vs SD County</td>
+        <td><span class="tag caution">⚠️ MEDIUM</span></td>
+        <td>Quarterly menu + pricing review for all 7. EMBR's vertical integration is primary moat.</td>
+      </tr>
+      <tr>
+        <td><strong>Black market / informal</strong></td>
+        <td>Potential driver of low repeat-visit ratio — price-sensitive Riverside County market</td>
+        <td><span class="tag threat">⚠️ UNKNOWN — MONITOR</span></td>
+        <td>Analyze transaction frequency data. If 1-visit customers are dominant, investigate pricing competitiveness.</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section-title">Weekly Priority Actions</div>
+  <div class="full-card">
+    <h2>This Week's Action List</h2>
+    <div class="alert"><div class="alert-icon">🔍</div><div><strong>PRIORITY: TRANSACTION FREQUENCY AUDIT.</strong> Pull Dutchie transaction frequency distribution. Segment into 1-visit / 2–5 visit / 6+ visit buckets. If 1-visit customers = &gt;50%, this is the #1 growth lever and requires immediate re-engagement campaign.</div></div>
+    <div class="alert warn"><div class="alert-icon">📦</div><div>INVENTORY DEAD STOCK AUDIT: 2,041 lines is the deepest in the portfolio. Pull inventory aging report — identify SKUs with zero sales in last 60/90 days. Clearance or return slow movers to free up working capital and shelf space.</div></div>
+    <div class="alert warn"><div class="alert-icon">💰</div><div>PULL HEALING TREE Weedmaps pricing. Document bulk oz pricing vs EMBR. Develop counter-offer strategy for price-sensitive segment without compromising margin on full-price SKUs.</div></div>
+    <div class="alert ok"><div class="alert-icon">🏟️</div><div>STORM STADIUM PARTNERSHIP: Lake Elsinore Storm games drive regular weekend traffic. Explore sponsorship or co-marketing opportunity. The team plays home games May–September — this is the peak window.</div></div>
+    <div class="alert info"><div class="alert-icon">🛍️</div><div>CUSTOMER REACTIVATION CAMPAIGN: Build a targeted email/SMS campaign for customers with exactly 1 prior visit. Even converting 10% to repeat buyers would meaningfully improve the 2.0 avg transaction ratio.</div></div>
+  </div>
+
+</div>
+<div class="footer">Phat Panda Group | EMBR Lake Elsinore Weekly Dashboard | Week of 2026-05-11 | File: Dashboards/WEEKLY_DASHBOARD_EMBR_LAKE_ELSINORE_2026-05-11.html</div>
+</body>
+</html>

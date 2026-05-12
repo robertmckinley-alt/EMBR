@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMBR Lake Elsinore — Weekly Dashboard | May 11–17, 2026</title>
+<style>
+  :root{--bg:#0d0f14;--card:#171c26;--accent:#8b5cf6;--warn:#f5c842;--good:#4ade80;--bad:#f87171;--blue:#60a5fa;--text:#e2e8f0;--muted:#94a3b8;--border:#2d3748;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;padding:20px;}
+  .header{background:linear-gradient(135deg,#1e1040,#120a2e);border:1px solid #4c1d95;border-radius:12px;padding:24px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;}
+  .store-badge{background:var(--accent);color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;}
+  h1{font-size:22px;font-weight:700;margin-bottom:4px;}
+  .subtitle{color:var(--muted);font-size:13px;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;}
+  .card-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .kpi-val{font-size:26px;font-weight:800;margin-bottom:2px;}
+  .section-title{font-size:15px;font-weight:700;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .action-item{padding:10px 12px;border-radius:8px;margin-bottom:8px;line-height:1.4;}
+  .action-critical{background:#2d0a0a;border-left:3px solid var(--bad);}
+  .action-high{background:#2d1f00;border-left:3px solid var(--warn);}
+  .action-medium{background:#0a1f2d;border-left:3px solid var(--blue);}
+  .action-label{font-size:10px;letter-spacing:1px;font-weight:700;padding:2px 6px;border-radius:4px;margin-right:6px;}
+  .lbl-critical{background:#7f1d1d;color:#fca5a5;}
+  .lbl-high{background:#78350f;color:#fde68a;}
+  .lbl-medium{background:#1e3a5f;color:#93c5fd;}
+  .event-row{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);}
+  .event-row:last-child{border-bottom:none;}
+  .event-date{font-size:11px;color:var(--warn);font-weight:700;width:80px;flex-shrink:0;}
+  .event-name{font-weight:600;font-size:13px;}
+  .event-opp{font-size:11px;color:var(--blue);margin-top:2px;}
+  .insight-row{padding:8px 0;border-bottom:1px solid var(--border);display:flex;gap:8px;font-size:12px;}
+  .insight-row:last-child{border-bottom:none;}
+  .insight-icon{font-size:16px;flex-shrink:0;}
+  .insight-text{flex:1;line-height:1.5;}
+  .footer{text-align:center;color:var(--muted);font-size:11px;margin-top:24px;padding-top:16px;border-top:1px solid var(--border);}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div style="margin-bottom:8px;"><span class="store-badge">STORE 05 — ACTIVE</span></div>
+    <h1>EMBR Lake Elsinore, CA</h1>
+    <div class="subtitle">Weekly Operations Dashboard | Week of May 11–17, 2026 | Corydon Rd • I-15 Corridor</div>
+  </div>
+  <div style="text-align:right">
+    <div style="font-size:11px;color:var(--muted)">Trans/Customer Alert</div>
+    <div style="font-size:20px;font-weight:800;color:var(--bad)">1.98× ⚠</div>
+    <div style="font-size:11px;color:var(--muted)">Re-activation priority</div>
+  </div>
+</div>
+
+<!-- KPIs -->
+<div class="grid-3">
+  <div class="card">
+    <div class="card-title">All-time Transactions</div>
+    <div class="kpi-val" style="color:var(--accent)">92,707</div>
+    <div style="font-size:12px;color:var(--muted);margin-top:4px;">Baseline — May sync pending</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Customer CRM</div>
+    <div class="kpi-val" style="color:#f97316">46,899</div>
+    <div style="font-size:12px;color:var(--muted);margin-top:4px;">Large dormant segment identified</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Active SKUs</div>
+    <div class="kpi-val" style="color:var(--warn)">2,041</div>
+    <div style="font-size:12px;color:var(--muted);margin-top:4px;">Largest SKU count in portfolio</div>
+  </div>
+</div>
+
+<div class="grid-2">
+
+  <div class="card">
+    <div class="section-title">This Week's Focus Priorities</div>
+    <div class="action-item action-critical">
+      <span class="action-label lbl-critical">CRITICAL</span>Customer re-activation campaign: Pull 90+ day lapsed customers from CRM. Launch SMS/email "We miss you" offer (15-20% off). Even 3-5% response = hundreds of incremental transactions.
+    </div>
+    <div class="action-item action-high">
+      <span class="action-label lbl-high">HIGH</span>Healing Tree comparison: Their 7AM open is taking early-day traffic. Consider Saturday/Sunday 7AM open test for Memorial Day weekend (May 25-26). Monitor traffic patterns.
+    </div>
+    <div class="action-item action-high">
+      <span class="action-label lbl-high">HIGH</span>Memorial Day weekend (May 25-26): Prepare bulk flower deals, outdoor/lake/recreation themed promotions, extended staffing. Biggest weekend revenue opportunity this month.
+    </div>
+    <div class="action-item action-medium">
+      <span class="action-label lbl-medium">MEDIUM</span>Weedmaps listing check: Confirm current listing is optimized. Add geo-keywords for regional draw: "Wildomar dispensary", "Canyon Lake cannabis", "Perris area weed".
+    </div>
+    <div class="action-item action-medium">
+      <span class="action-label lbl-medium">MEDIUM</span>SKU velocity review: 2,041 SKUs — check which are fast-moving vs. slow. Clear slow-movers with end-of-month deals. Ensure top 50 SKUs are well-stocked heading into Memorial Day.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Weekly Events + Demand Signals</div>
+    <div class="event-row">
+      <div class="event-date">May 11–17</div>
+      <div><div class="event-name">Current Week — Lake Rec Season Opening</div><div class="event-opp">🚤 Recreation demand building; I-15 weekend traffic increasing</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-date">May 25–26</div>
+      <div><div class="event-name">Memorial Day Weekend ⭐</div><div class="event-opp">📈 Largest near-term revenue opportunity; plan deals, extended hours, staffing</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-date">Jun–Aug</div>
+      <div><div class="event-name">Storm Baseball Season</div><div class="event-opp">⚾ Lake Elsinore Storm home games; game-day promotions for fans</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-date">Mar–Apr 2027</div>
+      <div><div class="event-name">Super Bloom — START PLANNING NOW</div><div class="event-opp">🌸 Walker Canyon 100K+ visitors — this year's Super Bloom is past; plan for 2027</div></div>
+    </div>
+    <div style="margin-top:14px;">
+      <div class="section-title">Competitor Signal — Healing Tree</div>
+      <div class="insight-row"><div class="insight-icon">🕖</div><div class="insight-text">Healing Tree hours: 7AM–10PM. EMBR should confirm its own hours and evaluate early/late competitive windows.</div></div>
+      <div class="insight-row"><div class="insight-icon">💵</div><div class="insight-text">Healing Tree pricing: ~$70/oz economy tier ("2 zips under $140" per Leafly review July 2025). Monitor for changes.</div></div>
+      <div class="insight-row"><div class="insight-icon">🏆</div><div class="insight-text">Healing Tree loyalty program cited as retention driver. Confirm EMBR Lake Elsinore has comparable loyalty offering.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Phat Panda Group — Retail Analytics System | EMBR Lake Elsinore Store 05 | Week of May 11–17, 2026
+</div>
+
+</body>
+</html>
