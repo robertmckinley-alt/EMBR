@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Higher Level Greenfield — Monthly Dashboard | May 2026</title>
+<style>
+  :root{--bg:#0d0f14;--card:#171c26;--accent:#eab308;--warn:#f5c842;--good:#4ade80;--bad:#f87171;--blue:#60a5fa;--purple:#a78bfa;--red:#f87171;--text:#e2e8f0;--muted:#94a3b8;--border:#2d3748;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;padding:20px;}
+  .header{background:linear-gradient(135deg,#1c1600,#0f0e00);border:1px solid #713f12;border-radius:12px;padding:24px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;}
+  .store-badge{background:var(--accent);color:#000;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;}
+  h1{font-size:22px;font-weight:700;margin-bottom:4px;}
+  .subtitle{color:var(--muted);font-size:13px;}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;}
+  .card-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .kpi-val{font-size:28px;font-weight:800;margin-bottom:2px;}
+  .kpi-delta{font-size:12px;padding:2px 7px;border-radius:10px;display:inline-block;margin-top:4px;}
+  .delta-good{background:#14532d;color:var(--good);}
+  .delta-bad{background:#7f1d1d;color:var(--bad);}
+  .delta-warn{background:#78350f;color:var(--warn);}
+  .delta-neutral{background:#1e2535;color:var(--muted);}
+  .section-title{font-size:15px;font-weight:700;margin-bottom:14px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .monopoly-banner{background:linear-gradient(135deg,#1c2b00,#0d1500);border:1px solid #4d7c0f;border-radius:10px;padding:16px;margin-bottom:20px;}
+  .action-item{padding:10px 12px;border-radius:8px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px;line-height:1.4;}
+  .action-critical{background:#2d0a0a;border-left:3px solid var(--bad);}
+  .action-high{background:#2d1f00;border-left:3px solid var(--warn);}
+  .action-medium{background:#0a1f2d;border-left:3px solid var(--blue);}
+  .action-low{background:#0d1a0d;border-left:3px solid var(--good);}
+  .action-label{font-size:10px;letter-spacing:1px;font-weight:700;padding:2px 6px;border-radius:4px;margin-right:6px;}
+  .lbl-critical{background:#7f1d1d;color:#fca5a5;}
+  .lbl-high{background:#78350f;color:#fde68a;}
+  .lbl-medium{background:#1e3a5f;color:#93c5fd;}
+  .lbl-low{background:#14532d;color:#86efac;}
+  .event-row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+  .event-row:last-child{border-bottom:none;}
+  .event-month{font-size:11px;color:var(--warn);font-weight:700;width:80px;flex-shrink:0;}
+  .event-name{font-weight:600;font-size:13px;}
+  .event-opp{font-size:11px;color:var(--blue);margin-top:2px;}
+  .insight-box{background:#1e2535;border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;}
+  .insight-title{font-weight:700;font-size:13px;margin-bottom:6px;}
+  .insight-body{font-size:12px;color:var(--muted);line-height:1.5;}
+  .demo-stat{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;}
+  .demo-stat:last-child{border-bottom:none;}
+  .demo-val{font-weight:700;}
+  .promo-box{background:#1a1400;border:1px solid #713f12;border-radius:8px;padding:12px;margin-bottom:8px;}
+  .promo-title{font-weight:700;font-size:12px;color:var(--accent);margin-bottom:4px;}
+  .promo-body{font-size:11px;color:var(--muted);}
+  .activation-alert{background:linear-gradient(135deg,#2d0a0a,#1a0505);border:1px solid var(--bad);border-radius:10px;padding:16px;margin-bottom:20px;}
+  .footer{text-align:center;color:var(--muted);font-size:11px;margin-top:24px;padding-top:16px;border-top:1px solid var(--border);}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div style="margin-bottom:8px;"><span class="store-badge">STORE 06 — ACTIVE / MONOPOLY</span></div>
+    <h1>Higher Level Greenfield, CA</h1>
+    <div class="subtitle">Monthly Performance Dashboard | May 2026 | 48 4th St, Greenfield, CA 93927 | Lic. C10-0000890-LIC</div>
+  </div>
+  <div style="text-align:right">
+    <div style="font-size:11px;color:var(--muted)">All-time Transactions</div>
+    <div style="font-size:22px;font-weight:800;color:var(--accent)">21,281</div>
+    <div style="font-size:11px;color:var(--muted)">58,493 customers on file</div>
+  </div>
+</div>
+
+<div class="monopoly-banner">
+  <div style="font-weight:700;color:#84cc16;font-size:15px;margin-bottom:6px;">✅ MONOPOLY MARKET — 1 Dispensary in Greenfield, CA (Weedmaps confirmed)</div>
+  <div style="font-size:13px;color:#d9f99d;">Higher Level is South Monterey County's ONLY dispensary storefront.</div>
+</div>
+
+<div class="activation-alert">
+  <div style="font-weight:700;color:var(--bad);font-size:14px;margin-bottom:8px;">⚠️ CRITICAL ANOMALY: Customer-Transaction Gap</div>
+  <div style="font-size:13px;color:#fca5a5;">
+    <strong>58,493 registered customers | 21,281 transactions = 0.36 transactions/customer</strong> (far below portfolio average). Most extreme customer activation gap in portfolio.
+  </div>
+</div>
+
+<!-- KPI Row -->
+<div class="grid-4">
+  <div class="card">
+    <div class="card-title">Total Transactions</div>
+    <div class="kpi-val" style="color:var(--accent)">21,281</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-warn">Lowest volume</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Customers on File</div>
+    <div class="kpi-val" style="color:var(--red)">58,493</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-bad">Massive unrealized</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Active SKUs</div>
+    <div class="kpi-val" style="color:var(--warn)">3,512</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-neutral">Largest inventory</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Trans / Customer</div>
+    <div class="kpi-val" style="color:var(--bad)">0.36×</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-bad">⚠ Anomalous</span></div>
+  </div>
+</div>
+
+<div class="grid-2">
+
+  <!-- Community Demographics -->
+  <div class="card">
+    <div class="section-title">Community Profile — Greenfield + Trade Area</div>
+    <div class="demo-stat"><span class="demo-val">96.1%</span><span>Hispanic/Latino</span></div>
+    <div class="demo-stat"><span class="demo-val">28.8 yrs</span><span>Median age</span></div>
+    <div class="demo-stat"><span class="demo-val">$84,740</span><span>Median HHI</span></div>
+    <div class="demo-stat"><span class="demo-val">Agriculture</span><span>#1 industry</span></div>
+    <div class="demo-stat"><span class="demo-val">Oaxacan</span><span>Indigenous community</span></div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">May 2026 Priority Actions</div>
+    <div class="action-item action-critical"><span class="action-label lbl-critical">CRITICAL</span>Customer re-activation: 58,493 registered, 21,281 transactions. SMS/email in Spanish + English: "¡Te extrañamos!"</div>
+    <div class="action-item action-critical"><span class="action-label lbl-critical">CRITICAL</span>Bilingual marketing activation: 96.1% Hispanic community demands Spanish-first marketing.</div>
+    <div class="action-item action-high"><span class="action-label lbl-high">HIGH</span>Google Business Profile optimization: Monopoly market — any search should return Higher Level instantly.</div>
+    <div class="action-item action-high"><span class="action-label lbl-high">HIGH</span>Harvest Festival (Sep-Oct) community sponsorship.</div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Phat Panda Group — Retail Analytics | Higher Level Greenfield Store 06 | Monthly May 2026
+</div>
+
+</body>
+</html>

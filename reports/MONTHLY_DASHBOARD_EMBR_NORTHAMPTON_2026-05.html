@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMBR Northampton — Monthly Dashboard | May 2026</title>
+<style>
+  :root{--bg:#0d0f14;--card:#171c26;--card2:#1e2535;--accent:#3b82f6;--warn:#f5c842;--good:#4ade80;--bad:#f87171;--blue:#60a5fa;--purple:#a78bfa;--text:#e2e8f0;--muted:#94a3b8;--border:#2d3748;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;padding:20px;}
+  .header{background:linear-gradient(135deg,#1a2340,#0f1a30);border:1px solid #2d4a7a;border-radius:12px;padding:24px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;}
+  .store-badge{background:var(--accent);color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;}
+  h1{font-size:22px;font-weight:700;margin-bottom:4px;}
+  .subtitle{color:var(--muted);font-size:13px;}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;}
+  .card-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .kpi-val{font-size:28px;font-weight:800;margin-bottom:2px;}
+  .kpi-delta{font-size:12px;padding:2px 7px;border-radius:10px;display:inline-block;margin-top:4px;}
+  .delta-good{background:#14532d;color:var(--good);}
+  .delta-bad{background:#7f1d1d;color:var(--bad);}
+  .delta-neutral{background:#1e2535;color:var(--muted);}
+  .section-title{font-size:15px;font-weight:700;margin-bottom:14px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .bar-label{width:80px;font-size:12px;color:var(--muted);}
+  .bar-track{flex:1;height:14px;background:#1e2535;border-radius:7px;overflow:hidden;}
+  .bar-fill{height:100%;border-radius:7px;}
+  .bar-val{width:50px;text-align:right;font-size:12px;font-weight:600;}
+  .action-item{padding:10px 12px;border-radius:8px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px;line-height:1.4;}
+  .action-critical{background:#2d0a0a;border-left:3px solid var(--bad);}
+  .action-high{background:#2d1f00;border-left:3px solid var(--warn);}
+  .action-medium{background:#0a1f2d;border-left:3px solid var(--blue);}
+  .action-low{background:#0d1a0d;border-left:3px solid var(--good);}
+  .action-label{font-size:10px;letter-spacing:1px;font-weight:700;padding:2px 6px;border-radius:4px;margin-right:6px;}
+  .lbl-critical{background:#7f1d1d;color:#fca5a5;}
+  .lbl-high{background:#78350f;color:#fde68a;}
+  .lbl-medium{background:#1e3a5f;color:#93c5fd;}
+  .lbl-low{background:#14532d;color:#86efac;}
+  .competitor-row{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border);}
+  .competitor-row:last-child{border-bottom:none;}
+  .comp-name{font-weight:600;font-size:13px;}
+  .comp-detail{font-size:11px;color:var(--muted);margin-top:2px;}
+  .comp-threat{font-size:11px;padding:2px 8px;border-radius:10px;white-space:nowrap;}
+  .threat-high{background:#7f1d1d;color:#fca5a5;}
+  .threat-med{background:#78350f;color:#fde68a;}
+  .threat-low{background:#1a2f1a;color:#86efac;}
+  .event-row{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);}
+  .event-row:last-child{border-bottom:none;}
+  .event-month{font-size:11px;color:var(--warn);font-weight:700;width:70px;flex-shrink:0;}
+  .event-body{flex:1;}
+  .event-name{font-weight:600;font-size:13px;}
+  .event-opp{font-size:11px;color:var(--blue);margin-top:2px;}
+  .market-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);}
+  .market-row:last-child{border-bottom:none;}
+  .insight-box{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px;}
+  .insight-title{font-weight:700;font-size:13px;margin-bottom:6px;}
+  .insight-body{font-size:12px;color:var(--muted);line-height:1.6;}
+  .data-note{background:#0a1520;border:1px dashed #2d4a7a;border-radius:8px;padding:12px;margin-bottom:16px;font-size:12px;color:#93c5fd;}
+  .footer{text-align:center;color:var(--muted);font-size:11px;margin-top:24px;padding-top:16px;border-top:1px solid var(--border);}
+  .perf-table{width:100%;border-collapse:collapse;}
+  .perf-table th{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);padding:8px;text-align:left;border-bottom:1px solid var(--border);}
+  .perf-table td{padding:8px;border-bottom:1px solid var(--border);font-size:12px;}
+  .perf-table tr:last-child td{border-bottom:none;}
+  .tag{display:inline-block;font-size:10px;padding:2px 6px;border-radius:4px;margin:2px;}
+  .tag-blue{background:#1e3a5f;color:#93c5fd;}
+  .tag-green{background:#14532d;color:#86efac;}
+  .tag-yellow{background:#78350f;color:#fde68a;}
+  .tag-red{background:#7f1d1d;color:#fca5a5;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div style="margin-bottom:8px;"><span class="store-badge">STORE 02 — ACTIVE</span></div>
+    <h1>EMBR Northampton, MA</h1>
+    <div class="subtitle">Monthly Performance Dashboard | May 2026 | 144 King St, Northampton, MA 01060</div>
+  </div>
+  <div style="text-align:right">
+    <div style="font-size:11px;color:var(--muted)">POS Data Baseline</div>
+    <div style="font-size:22px;font-weight:800;color:var(--good)">183,582</div>
+    <div style="font-size:11px;color:var(--muted)">All-time transactions on file</div>
+  </div>
+</div>
+
+<div class="data-note">
+  📊 Dashboard based on Dutchie POS historical data (last pull: 2026-05-08) + external market research (2026-05-11). Live May 2026 daily transaction data pending next POS sync. KPIs shown are cumulative/baseline metrics; May 2026 in-month figures will update with next data pull.
+</div>
+
+<!-- KPI Row -->
+<div class="grid-4">
+  <div class="card">
+    <div class="card-title">Total Transactions (All-time)</div>
+    <div class="kpi-val" style="color:var(--blue)">183,582</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-good">Historical Baseline</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Customers on File</div>
+    <div class="kpi-val" style="color:var(--purple)">43,999</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-neutral">CRM Base</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Active SKUs</div>
+    <div class="kpi-val" style="color:var(--warn)">939</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-neutral">Current Inventory</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Trans / Customer Ratio</div>
+    <div class="kpi-val" style="color:var(--good)">4.17×</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-good">Healthy Frequency</span></div>
+  </div>
+</div>
+
+<div class="grid-2">
+
+  <!-- Product Category Mix -->
+  <div class="card">
+    <div class="section-title">Product Category Performance — MA Market (Feb 2026)</div>
+    <div class="bar-row">
+      <div class="bar-label">Flower</div>
+      <div class="bar-track"><div class="bar-fill" style="width:40%;background:#3b82f6;"></div></div>
+      <div class="bar-val">40%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Pre-Rolls</div>
+      <div class="bar-track"><div class="bar-fill" style="width:20%;background:#4ade80;"></div></div>
+      <div class="bar-val">20%<span style="font-size:10px;color:var(--good)"> ↑</span></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Vape</div>
+      <div class="bar-track"><div class="bar-fill" style="width:21%;background:#a78bfa;"></div></div>
+      <div class="bar-val">21%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Edibles</div>
+      <div class="bar-track"><div class="bar-fill" style="width:13%;background:#f5c842;"></div></div>
+      <div class="bar-val">13%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Concentrates</div>
+      <div class="bar-track"><div class="bar-fill" style="width:6%;background:#f87171;"></div></div>
+      <div class="bar-val">6%</div>
+    </div>
+    <div style="margin-top:14px;padding:10px;background:#0a1520;border-radius:6px;font-size:11px;color:#93c5fd;">
+      📈 Key trend: Infused/Connoisseur Pre-Rolls +27.2% YoY (Headset Feb 2026). Prioritize infused pre-roll assortment depth. Jeeter leads MA pre-roll market — ensure assortment includes trending brands.
+    </div>
+  </div>
+
+  <!-- Competitive Position -->
+  <div class="card">
+    <div class="section-title">Northampton Competitive Position — May 2026</div>
+    <div class="competitor-row">
+      <div><div class="comp-name">Honey Northampton</div><div class="comp-detail">41 Strong Ave | Latino-owned | "Best prices in western MA" | Klaviyo email mktg</div></div>
+      <span class="comp-threat threat-high">🔴 HIGH</span>
+    </div>
+    <div class="competitor-row">
+      <div><div class="comp-name">INSA (Springfield area)</div><div class="comp-detail">Multi-state operator; 100K sqft cultivation; regional brand</div></div>
+      <span class="comp-threat threat-high">🔴 HIGH</span>
+    </div>
+    <div class="competitor-row">
+      <div><div class="comp-name">Enlite Cannabis</div><div class="comp-detail">Expanding operator; June 2024 HCA amendment; growth mode</div></div>
+      <span class="comp-threat threat-med">🟡 MED</span>
+    </div>
+    <div class="competitor-row">
+      <div><div class="comp-name">Resinate</div><div class="comp-detail">Medical + adult-use; established; premium branding</div></div>
+      <span class="comp-threat threat-med">🟡 MED</span>
+    </div>
+    <div class="competitor-row">
+      <div><div class="comp-name">Toroverde / Galil / Apical</div><div class="comp-detail">New HCA holders (2024-2025); growing competitive set</div></div>
+      <span class="comp-threat threat-low">🟢 LOW</span>
+    </div>
+    <div style="margin-top:12px;padding:10px;background:#0d1a0d;border-radius:6px;font-size:11px;color:#86efac;">
+      ✅ EMBR Advantage: Phat Panda vertical integration = supply consistency. 2023 Best of Weedmaps award. 4.9/5 rating (TrustedBud). EMBR at 144 King St — proximity to Thornes Marketplace + I-91 Exit 18.
+    </div>
+  </div>
+
+</div>
+
+<!-- Strategic Insights -->
+<div class="card" style="margin-bottom:20px;">
+  <div class="section-title">Monthly Strategic Insights — May 2026</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
+    <div class="insight-box">
+      <div class="insight-title">🎯 Customer Frequency</div>
+      <div class="insight-body">183,582 transactions across 43,999 customers = 4.17× ratio (healthy). Indicates repeat buyer behavior. Focus: loyalty program utilization to push 4× buyers to 6×+ (monthly buyers). SMS/email cadence via Springbig or Alpine IQ recommended.</div>
+    </div>
+    <div class="insight-box">
+      <div class="insight-title">📍 Weedmaps Optimization Gap</div>
+      <div class="insight-body">Honey Northampton drives "drive from Jersey" destination traffic via strong Weedmaps presence + Klaviyo CRM. EMBR Northampton must fully optimize: complete business profile, live menu photos, keyword-rich descriptions, fresh deal posts weekly. Recency of listing updates = critical ranking signal.</div>
+    </div>
+    <div class="insight-box">
+      <div class="insight-title">🏳️‍🌈 June Pride Opportunity</div>
+      <div class="insight-body">Northampton Pride is a MAJOR regional event drawing thousands from Pioneer Valley and beyond. EMBR should prepare: themed product bundles, staff Pride gear, rainbow-branded merchandise, social media Pride content (educational/lifestyle, not product ads). Dates: June 2026 (confirm exact schedule at northamptonpride.org).</div>
+    </div>
+  </div>
+</div>
+
+<!-- Event Calendar -->
+<div class="grid-2">
+  <div class="card">
+    <div class="section-title">12-Month Event Calendar — Northampton</div>
+    <div class="event-row">
+      <div class="event-month">May 26</div>
+      <div class="event-body"><div class="event-name">Memorial Day Weekend</div><div class="event-opp">📈 Cannabis demand spike; bulk deals + gift sets</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">June</div>
+      <div class="event-body"><div class="event-name">Northampton Pride 🏳️‍🌈</div><div class="event-opp">⭐ Major regional event; LGBTQ+ branding; destination traffic</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">Jul–Aug</div>
+      <div class="event-body"><div class="event-name">Look Park Concert Series</div><div class="event-opp">🎵 Extended hours; tourist peak; evening promotions</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">Aug</div>
+      <div class="event-body"><div class="event-name">Peak Cannabis Month (MA)</div><div class="event-opp">📈 MA historically highest sales month ($148M Aug 2024)</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">Sep</div>
+      <div class="event-body"><div class="event-name">Smith College Fall Arrival</div><div class="event-opp">🎓 +2,500 students + 5-College Consortium; back-to-school targeting</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">Oct</div>
+      <div class="event-body"><div class="event-name">Northampton Open Studios + Fall Tourism</div><div class="event-opp">🍂 Leaf peeper visitors; arts district foot traffic</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">Nov–Jan</div>
+      <div class="event-body"><div class="event-name">Bright Nights / Holiday Season</div><div class="event-opp">🎄 Forest Park Springfield cross-draw; gift packaging promotions</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">Apr 20</div>
+      <div class="event-body"><div class="event-name">Cannabis Holiday 2027</div><div class="event-opp">🌿 Plan major promotional event; Weedmaps deal listing; VIP access</div></div>
+    </div>
+  </div>
+
+  <!-- Monthly Actions -->
+  <div class="card">
+    <div class="section-title">May 2026 Priority Actions</div>
+    <div class="action-item action-critical">
+      <div class="action-text"><span class="action-label lbl-critical">CRITICAL</span>Launch/update Weedmaps listing: complete all fields, add fresh product photos, post this week's deal. Target keywords: "Northampton dispensary", "best dispensary western MA", "cannabis near Smith College".</div>
+    </div>
+    <div class="action-item action-high">
+      <div class="action-text"><span class="action-label lbl-high">HIGH</span>June Pride preparation NOW: confirm Pride dates, plan branded merchandise, staff attire, social media content calendar (educational/lifestyle content only per ad restrictions), window displays.</div>
+    </div>
+    <div class="action-item action-high">
+      <div class="action-text"><span class="action-label lbl-high">HIGH</span>Pre-roll assortment audit: Infused/Connoisseur pre-rolls are +27.2% YoY (MA market). Ensure Northampton menu has competitive depth in this category. Jeeter and other top MA brands must be stocked.</div>
+    </div>
+    <div class="action-item action-high">
+      <div class="action-text"><span class="action-label lbl-high">HIGH</span>Address Leafly review scores: atmosphere (3.2/5) and service (3.4/5) are below Honey Northampton's perception. Launch in-store experience improvements: music, signage, budtender training refresher.</div>
+    </div>
+    <div class="action-item action-medium">
+      <div class="action-text"><span class="action-label lbl-medium">MEDIUM</span>Email/SMS campaign to 43,999 customer CRM base: Mother's Day gifts (May), then Pride month content (June). Segment: first-time buyers, 60+ day lapsed customers, top 10% spenders.</div>
+    </div>
+    <div class="action-item action-low">
+      <div class="action-text"><span class="action-label lbl-low">INFO</span>Market context: MA 2026 YTD $562M through Apr 26 — market healthy but price-compressed. Average item price $17.69 (Feb). EMBR must drive basket size and frequency, not price competition.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Market Context Table -->
+<div class="card" style="margin-bottom:20px;">
+  <div class="section-title">Massachusetts Market Benchmarks — May 2026</div>
+  <table class="perf-table">
+    <thead>
+      <tr><th>Metric</th><th>MA Market (Latest)</th><th>Signal</th><th>EMBR Implication</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Total sales (2025)</td><td>$1.65B (annual record)</td><td><span class="tag tag-green">Strong</span></td><td>Market healthy; demand exists despite saturation</td></tr>
+      <tr><td>2026 YTD (Apr 26)</td><td>$562.6M</td><td><span class="tag tag-green">On pace</span></td><td>On track for another strong year</td></tr>
+      <tr><td>YoY change (Feb 2026)</td><td>-2.3% sales</td><td><span class="tag tag-yellow">Caution</span></td><td>Price-driven; unit sales stable (+0.2%); fight on frequency</td></tr>
+      <tr><td>Avg item price</td><td>$17.69 (Feb 2026)</td><td><span class="tag tag-yellow">Compressing</span></td><td>Basket size matters; push multi-unit purchases</td></tr>
+      <tr><td>Pre-rolls (category)</td><td>+3.1% YoY; Infused +27.2%</td><td><span class="tag tag-green">Growing ↑</span></td><td>Expand infused pre-roll assortment immediately</td></tr>
+      <tr><td>Market closures</td><td>13 retail closures last fiscal yr</td><td><span class="tag tag-red">Risk</span></td><td>Industry stress; financial management critical</td></tr>
+      <tr><td>Delivery growth (2025)</td><td>$16.5M (+$4M vs 2024)</td><td><span class="tag tag-green">Growing</span></td><td>Consider delivery program if not already active</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">
+  Phat Panda Group — Retail Analytics System | EMBR Northampton Store 02 | Monthly Dashboard May 2026<br>
+  Data sources: Dutchie POS (last sync 2026-05-08), MA CCC, Headset Analytics, Weedmaps, Leafly, Boston Globe, TrustedBud
+</div>
+
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fyre Ants Easthampton — Monthly Dashboard | May 2026</title>
+<style>
+  :root{--bg:#0d0f14;--card:#171c26;--accent:#f97316;--warn:#f5c842;--good:#4ade80;--bad:#f87171;--blue:#60a5fa;--purple:#a78bfa;--text:#e2e8f0;--muted:#94a3b8;--border:#2d3748;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;padding:20px;}
+  .header{background:linear-gradient(135deg,#2d1500,#1a0d00);border:1px solid #7c2d12;border-radius:12px;padding:24px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;}
+  .store-badge{background:var(--accent);color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;}
+  h1{font-size:22px;font-weight:700;margin-bottom:4px;}
+  .subtitle{color:var(--muted);font-size:13px;}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;}
+  .card-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .kpi-val{font-size:28px;font-weight:800;margin-bottom:2px;}
+  .kpi-delta{font-size:12px;padding:2px 7px;border-radius:10px;display:inline-block;margin-top:4px;}
+  .delta-good{background:#14532d;color:var(--good);}
+  .delta-bad{background:#7f1d1d;color:var(--bad);}
+  .delta-neutral{background:#1e2535;color:var(--muted);}
+  .section-title{font-size:15px;font-weight:700;margin-bottom:14px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .threat-box{border-radius:10px;padding:14px;margin-bottom:12px;}
+  .threat-critical{background:#2d0a0a;border:1px solid var(--bad);}
+  .threat-high{background:#2d1a00;border:1px solid var(--warn);}
+  .threat-moderate{background:#0a1520;border:1px solid var(--blue);}
+  .threat-title{font-weight:700;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;}
+  .threat-badge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;}
+  .badge-critical{background:#7f1d1d;color:#fca5a5;}
+  .badge-high{background:#78350f;color:#fde68a;}
+  .badge-moderate{background:#1e3a5f;color:#93c5fd;}
+  .threat-body{font-size:12px;color:var(--muted);line-height:1.6;}
+  .action-item{padding:10px 12px;border-radius:8px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px;line-height:1.4;}
+  .action-critical{background:#2d0a0a;border-left:3px solid var(--bad);}
+  .action-high{background:#2d1f00;border-left:3px solid var(--warn);}
+  .action-medium{background:#0a1f2d;border-left:3px solid var(--blue);}
+  .action-low{background:#0d1a0d;border-left:3px solid var(--good);}
+  .action-label{font-size:10px;letter-spacing:1px;font-weight:700;padding:2px 6px;border-radius:4px;margin-right:6px;}
+  .lbl-critical{background:#7f1d1d;color:#fca5a5;}
+  .lbl-high{background:#78350f;color:#fde68a;}
+  .lbl-medium{background:#1e3a5f;color:#93c5fd;}
+  .lbl-low{background:#14532d;color:#86efac;}
+  .event-row{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);}
+  .event-row:last-child{border-bottom:none;}
+  .event-month{font-size:11px;color:var(--warn);font-weight:700;width:70px;flex-shrink:0;}
+  .event-name{font-weight:600;font-size:13px;}
+  .event-opp{font-size:11px;color:var(--blue);margin-top:2px;}
+  .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .bar-label{width:90px;font-size:12px;color:var(--muted);}
+  .bar-track{flex:1;height:14px;background:#1e2535;border-radius:7px;overflow:hidden;}
+  .bar-fill{height:100%;border-radius:7px;}
+  .bar-val{width:50px;text-align:right;font-size:12px;font-weight:600;}
+  .insight-box{background:#1e2535;border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;}
+  .insight-title{font-weight:700;font-size:13px;margin-bottom:6px;}
+  .insight-body{font-size:12px;color:var(--muted);line-height:1.5;}
+  .footer{text-align:center;color:var(--muted);font-size:11px;margin-top:24px;padding-top:16px;border-top:1px solid var(--border);}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div style="margin-bottom:8px;"><span class="store-badge">STORE 03 — ACTIVE</span></div>
+    <h1>Fyre Ants Easthampton, MA</h1>
+    <div class="subtitle">Monthly Performance Dashboard | May 2026 | Easthampton, MA</div>
+  </div>
+  <div style="text-align:right">
+    <div style="font-size:11px;color:var(--muted)">Portfolio Leader</div>
+    <div style="font-size:22px;font-weight:800;color:var(--accent)">315,628</div>
+    <div style="font-size:11px;color:var(--muted)">All-time transactions on file</div>
+  </div>
+</div>
+
+<!-- KPI Row -->
+<div class="grid-4">
+  <div class="card">
+    <div class="card-title">Total Transactions (All-time)</div>
+    <div class="kpi-val" style="color:var(--accent)">315,628</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-good">Largest portfolio store</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Customers on File</div>
+    <div class="kpi-val" style="color:var(--purple)">64,199</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-good">Largest customer base</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Active SKUs</div>
+    <div class="kpi-val" style="color:var(--warn)">1,174</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-neutral">Current Inventory</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Trans / Customer Ratio</div>
+    <div class="kpi-val" style="color:var(--good)">4.92×</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-good">Best in portfolio</span></div>
+  </div>
+</div>
+
+<!-- Competitive Threats -->
+<div class="card" style="margin-bottom:20px;">
+  <div class="section-title">Competitive Threat Assessment — Easthampton Market (May 2026)</div>
+  
+  <div class="threat-box threat-critical">
+    <div class="threat-title">
+      <span>🔴 OZ CLUB (OUNCE CLUB) — 17 East St, Easthampton</span>
+      <span class="threat-badge badge-critical">CRITICAL THREAT</span>
+    </div>
+    <div class="threat-body">
+      Opened September 2025. "State's first true cannabis outlet dispensary." Positioning: lowest prices in Massachusetts via outlet/bulk model. Same ownership as Honey Northampton and Dreamer (Wemelco Industries). Hours: 9AM-9PM 7 days. Targets I-91 commuters — "2 minutes from I-91." Products: full menu (flower, pre-rolls, edibles, concentrates, vapes). Large, warehouse-style inventory on open display shelves. Explicitly challenges ALL Easthampton incumbents on price. 
+      <br><br><strong style="color:#fca5a5;">Response required:</strong> Fyre Ants must compete on service quality, product curation, loyalty, and community identity — NOT on price matching. Pre-roll + curated flower differentiation critical.
+    </div>
+  </div>
+
+  <div class="threat-box threat-high">
+    <div class="threat-title">
+      <span>🟡 INSA — 122 Pleasant St (Keystone Mill), Easthampton</span>
+      <span class="threat-badge badge-high">HIGH THREAT</span>
+    </div>
+    <div class="threat-body">
+      First permitted dispensary in Easthampton. 100,000 sq ft cultivation facility = vertically integrated. Direct supply chain = structural cost advantage over Fyre Ants. Full product menu. Established customer base. Strong brand recognition across MA.
+      <br><br><strong style="color:#fde68a;">Note:</strong> INSA is now also threatened by OZ Club on price — may shift upmarket, which could open mid-tier space for Fyre Ants.
+    </div>
+  </div>
+
+  <div class="threat-box threat-moderate">
+    <div class="threat-title">
+      <span>🔵 Dreamer — Southampton (adjacent town)</span>
+      <span class="threat-badge badge-moderate">MODERATE</span>
+    </div>
+    <div class="threat-body">
+      Same Wemelco ownership as OZ Club and Honey. In Southampton, not Easthampton city limits but competes in trade area. Positioned as distinct character from OZ Club and Honey per owners' stated strategy.
+    </div>
+  </div>
+</div>
+
+<div class="grid-2">
+
+  <!-- Product Mix + Market Trends -->
+  <div class="card">
+    <div class="section-title">Category Focus Areas — May 2026</div>
+    <div class="bar-row">
+      <div class="bar-label">Flower</div>
+      <div class="bar-track"><div class="bar-fill" style="width:40%;background:#f97316;"></div></div>
+      <div class="bar-val">40%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Infused Pre-R.</div>
+      <div class="bar-track"><div class="bar-fill" style="width:22%;background:#4ade80;"></div></div>
+      <div class="bar-val">+27% ↑</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Vape</div>
+      <div class="bar-track"><div class="bar-fill" style="width:21%;background:#a78bfa;"></div></div>
+      <div class="bar-val">21%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Edibles</div>
+      <div class="bar-track"><div class="bar-fill" style="width:13%;background:#f5c842;"></div></div>
+      <div class="bar-val">13%</div>
+    </div>
+    <div style="margin-top:12px;">
+      <div class="insight-box">
+        <div class="insight-title">🎯 Differentiation Strategy vs OZ Club</div>
+        <div class="insight-body">OZ Club wins on price. Fyre Ants wins on: curated floor, educated staff, community identity, loyalty program, product discovery experience. Build "Fyre Ants Picks" staff-curated shelf sections. Create loyalty program events and member exclusives that OZ Club cannot replicate.</div>
+      </div>
+      <div class="insight-box">
+        <div class="insight-title">📦 SKU Rationalization Opportunity</div>
+        <div class="insight-body">1,174 active SKUs. Healthy breadth. With OZ Club offering high-volume, low-curation approach, Fyre Ants can counter with expert curation — fewer, better-chosen products with strong POS promotion.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Event Calendar -->
+  <div class="card">
+    <div class="section-title">Event Calendar + Demand Drivers</div>
+    <div class="event-row">
+      <div class="event-month">May 26</div>
+      <div><div class="event-name">Memorial Day Weekend</div><div class="event-opp">📈 Bulk deals; outdoor season opens; tourist traffic begins</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">June</div>
+      <div><div class="event-name">Northampton Pride (nearby)</div><div class="event-opp">🏳️‍🌈 Cross-city draw; Easthampton residents attend; Pride promotions recommended</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">July–Aug</div>
+      <div><div class="event-name">Pioneer Valley Peak Season</div><div class="event-opp">🌞 Look Park concerts; tourist peak; August = MA's highest cannabis month historically</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">August</div>
+      <div><div class="event-name">MA Peak Cannabis Month</div><div class="event-opp">📈 Historically $148M statewide in Aug 2024 — stock up inventory</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">September</div>
+      <div><div class="event-name">UMass / Five College Back-to-School</div><div class="event-opp">🎓 UMass Amherst (15-20 min): 30,000+ students; student acquisition push</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">October</div>
+      <div><div class="event-name">Pioneer Valley Harvest Season</div><div class="event-opp">🍎 Apple picking tourist traffic; arts events; Easthampton City Arts</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">Seasonal</div>
+      <div><div class="event-name">Eastworks / Mill Events (ongoing)</div><div class="event-opp">🏭 Brewery events, maker fairs, local community activities drive foot traffic</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Monthly Actions -->
+<div class="card" style="margin-bottom:20px;">
+  <div class="section-title">May 2026 Priority Actions — Fyre Ants</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+    <div>
+      <div class="action-item action-critical">
+        <div class="action-text"><span class="action-label lbl-critical">CRITICAL</span>OZ Club competitive response: Launch or enhance loyalty program with clear rewards. Differentiate on curation, experience, community — not price. Staff briefing on competitive positioning vs OZ Club's "outlet model."</div>
+      </div>
+      <div class="action-item action-high">
+        <div class="action-text"><span class="action-label lbl-high">HIGH</span>Infused pre-roll category build: +27.2% YoY growth in MA (Headset Feb 2026). Ensure Fyre Ants has deep assortment in infused/connoisseur pre-rolls. OZ Club will compete on price here — Fyre Ants must win on quality and variety.</div>
+      </div>
+      <div class="action-item action-high">
+        <div class="action-text"><span class="action-label lbl-high">HIGH</span>August inventory pre-planning: August is MA's peak cannabis demand month. Begin inventory builds and vendor negotiations now for August-September positioning. OZ Club will run bulk promotions in August — prepare response.</div>
+      </div>
+    </div>
+    <div>
+      <div class="action-item action-medium">
+        <div class="action-text"><span class="action-label lbl-medium">MEDIUM</span>Weedmaps optimization: Confirm Fyre Ants listing is fully optimized (photos, menu freshness, keyword-rich descriptions). Target: "Easthampton dispensary", "Pioneer Valley cannabis", "dispensary near Route 5 Easthampton".</div>
+      </div>
+      <div class="action-item action-medium">
+        <div class="action-text"><span class="action-label lbl-medium">MEDIUM</span>Community identity marketing: Easthampton's mill district / arts / maker community identity is a differentiator. Partner with Eastworks events, local breweries, creative events — OZ Club's "outlet" positioning doesn't own this space.</div>
+      </div>
+      <div class="action-item action-low">
+        <div class="action-text"><span class="action-label lbl-low">MONITOR</span>OZ Club pricing surveillance: Monitor OZ Club Weedmaps and Dutchie menu weekly. Track their flower oz pricing, infused pre-roll deals, and promotional cadence. Share findings with ops team monthly.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Phat Panda Group — Retail Analytics System | Fyre Ants Easthampton Store 03 | Monthly Dashboard May 2026<br>
+  Data sources: Dutchie POS (last sync 2026-05-08), Daily Hampshire Gazette, Headset Analytics, MA CCC, Weedmaps
+</div>
+
+</body>
+</html>

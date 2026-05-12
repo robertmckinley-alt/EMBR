@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMBR Lake Elsinore — Monthly Dashboard | May 2026</title>
+<style>
+  :root{--bg:#0d0f14;--card:#171c26;--accent:#8b5cf6;--warn:#f5c842;--good:#4ade80;--bad:#f87171;--blue:#60a5fa;--text:#e2e8f0;--muted:#94a3b8;--border:#2d3748;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;padding:20px;}
+  .header{background:linear-gradient(135deg,#1e1040,#120a2e);border:1px solid #4c1d95;border-radius:12px;padding:24px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;}
+  .store-badge{background:var(--accent);color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;}
+  h1{font-size:22px;font-weight:700;margin-bottom:4px;}
+  .subtitle{color:var(--muted);font-size:13px;}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;}
+  .card-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .kpi-val{font-size:28px;font-weight:800;margin-bottom:2px;}
+  .kpi-delta{font-size:12px;padding:2px 7px;border-radius:10px;display:inline-block;margin-top:4px;}
+  .delta-good{background:#14532d;color:var(--good);}
+  .delta-bad{background:#7f1d1d;color:var(--bad);}
+  .delta-warn{background:#78350f;color:var(--warn);}
+  .delta-neutral{background:#1e2535;color:var(--muted);}
+  .section-title{font-size:15px;font-weight:700;margin-bottom:14px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .action-item{padding:10px 12px;border-radius:8px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px;line-height:1.4;}
+  .action-critical{background:#2d0a0a;border-left:3px solid var(--bad);}
+  .action-high{background:#2d1f00;border-left:3px solid var(--warn);}
+  .action-medium{background:#0a1f2d;border-left:3px solid var(--blue);}
+  .action-low{background:#0d1a0d;border-left:3px solid var(--good);}
+  .action-label{font-size:10px;letter-spacing:1px;font-weight:700;padding:2px 6px;border-radius:4px;margin-right:6px;}
+  .lbl-critical{background:#7f1d1d;color:#fca5a5;}
+  .lbl-high{background:#78350f;color:#fde68a;}
+  .lbl-medium{background:#1e3a5f;color:#93c5fd;}
+  .lbl-low{background:#14532d;color:#86efac;}
+  .event-row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+  .event-row:last-child{border-bottom:none;}
+  .event-month{font-size:11px;color:var(--warn);font-weight:700;width:80px;flex-shrink:0;}
+  .event-name{font-weight:600;font-size:13px;}
+  .event-opp{font-size:11px;color:var(--blue);margin-top:2px;}
+  .insight-box{background:#1e2535;border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;}
+  .insight-title{font-weight:700;font-size:13px;margin-bottom:6px;}
+  .insight-body{font-size:12px;color:var(--muted);line-height:1.5;}
+  .competitor-row{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border);}
+  .competitor-row:last-child{border-bottom:none;}
+  .comp-name{font-weight:600;font-size:13px;}
+  .comp-detail{font-size:11px;color:var(--muted);margin-top:2px;}
+  .comp-threat{font-size:11px;padding:2px 8px;border-radius:10px;white-space:nowrap;margin-top:4px;}
+  .threat-high{background:#7f1d1d;color:#fca5a5;}
+  .threat-med{background:#78350f;color:#fde68a;}
+  .threat-low{background:#1a2f1a;color:#86efac;}
+  .activation-alert{background:linear-gradient(135deg,#2d1f00,#1a1000);border:1px solid var(--warn);border-radius:10px;padding:16px;margin-bottom:20px;}
+  .footer{text-align:center;color:var(--muted);font-size:11px;margin-top:24px;padding-top:16px;border-top:1px solid var(--border);}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div style="margin-bottom:8px;"><span class="store-badge">STORE 05 — ACTIVE</span></div>
+    <h1>EMBR Lake Elsinore, CA</h1>
+    <div class="subtitle">Monthly Performance Dashboard | May 2026 | 31881 Corydon Rd, Lake Elsinore, CA 92595</div>
+  </div>
+  <div style="text-align:right">
+    <div style="font-size:11px;color:var(--muted)">All-time Transactions</div>
+    <div style="font-size:22px;font-weight:800;color:var(--accent)">92,707</div>
+    <div style="font-size:11px;color:var(--muted)">46,899 customers on file</div>
+  </div>
+</div>
+
+<div class="activation-alert">
+  <div style="font-weight:700;color:var(--warn);font-size:15px;margin-bottom:8px;">⚠️ CUSTOMER ACTIVATION ANOMALY — Requires Immediate Attention</div>
+  <div style="font-size:13px;color:#fde68a;">
+    <strong>92,707 transactions | 46,899 customers = 1.98× ratio</strong> — this is the LOWEST frequency ratio in the active portfolio (Northampton: 4.17×; Fyre Ants: 4.92×). Nearly half of all registered customers have likely visited only once or twice. Potential explanations: Super Bloom / event-driven tourist visits, lapsed customers, black market competition.
+  </div>
+  <div style="margin-top:8px;font-size:12px;color:var(--muted);">Action: Customer segmentation analysis + re-activation SMS/email campaign to all customers with 0 purchases in last 90 days.</div>
+</div>
+
+<div class="grid-4">
+  <div class="card">
+    <div class="card-title">Total Transactions (All-time)</div>
+    <div class="kpi-val" style="color:var(--accent)">92,707</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-neutral">Baseline</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Customers on File</div>
+    <div class="kpi-val" style="color:#f97316">46,899</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-neutral">CRM Base</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Active SKUs</div>
+    <div class="kpi-val" style="color:var(--warn)">2,041</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-good">Largest SKU count</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Trans / Customer Ratio</div>
+    <div class="kpi-val" style="color:var(--bad)">1.98×</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-bad">⚠ Lowest in portfolio</span></div>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="section-title">Lake Elsinore Competitor Landscape (8 local storefronts)</div>
+    <div class="competitor-row">
+      <div>
+        <div class="comp-name">The Healing Tree</div>
+        <div class="comp-detail">480 3rd St | 7AM–10PM 7 days | Near Target/Walmart/Home Depot<br>
+        💵 ~$70/oz economy bulk ("2 zips under $140"); active loyalty program<br>
+        📣 "Best prices around"; regular events; glass jar house flower<br>
+        ⏰ 7AM open = early market advantage over EMBR</div>
+      </div>
+      <span class="comp-threat threat-high">🔴 HIGH</span>
+    </div>
+    <div class="competitor-row">
+      <div>
+        <div class="comp-name">Mr. Nice Guy (2 locations)</div>
+        <div class="comp-detail">Lake Elsinore Marketplace Med+Rec; adjacent cities<br>
+        Medical + recreational; multi-location scale</div>
+      </div>
+      <span class="comp-threat threat-med">🟡 MED</span>
+    </div>
+    <div class="competitor-row">
+      <div>
+        <div class="comp-name">Medcare Farms</div>
+        <div class="comp-detail">Local cultivator/retailer; wellness positioning; medical market focus</div>
+      </div>
+      <span class="comp-threat threat-low">🟢 LOW</span>
+    </div>
+    <div class="competitor-row">
+      <div>
+        <div class="comp-name">Nugg Hubb / Kind Delivery</div>
+        <div class="comp-detail">Discount-oriented / delivery focus; limited storefront competition</div>
+      </div>
+      <span class="comp-threat threat-low">🟢 LOW</span>
+    </div>
+    <div style="margin-top:12px;padding:10px;background:#0d1a0d;border-radius:6px;font-size:11px;color:#86efac;">
+      ✅ EMBR Advantage: Phat Panda vertical integration; regional draw (Canyon Lake, Wildomar, Perris, Menifee, Hemet, Murrieta, Temecula — all underserved). Only 8 storefronts locally vs 61 in La Mesa = competitive relief.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Lake Elsinore Event Calendar + Seasonal Drivers</div>
+    <div class="event-row"><div class="event-month">⭐ Mar–Apr</div><div><div class="event-name">SUPER BLOOM — Walker Canyon Poppies</div><div class="event-opp">🌸 100K+ visitors; massive tourism spike; #1 annual event — PLAN FOR 2027 NOW</div></div></div>
+    <div class="event-row"><div class="event-month">May 26</div><div><div class="event-name">Memorial Day Weekend</div><div class="event-opp">📈 Lake recreation season opens; boat ramps, water sports; tourist influx</div></div></div>
+    <div class="event-row"><div class="event-month">Summer</div><div><div class="event-name">Lake Recreation Season</div><div class="event-opp">🚤 Jet ski, boating, swimming; weekend recreation traffic on Corydon Rd corridor</div></div></div>
+    <div class="event-row"><div class="event-month">Spring–Fall</div><div><div class="event-name">Lake Elsinore Storm Baseball</div><div class="event-opp">⚾ Minor league; community gatherings; Storm Stadium partnership opportunity</div></div></div>
+    <div class="event-row"><div class="event-month">Jul 4</div><div><div class="event-name">4th of July Lakeside</div><div class="event-opp">🎆 Major local celebration; peak traffic day</div></div></div>
+    <div class="event-row"><div class="event-month">Year-round</div><div><div class="event-name">I-15 Commuter Corridor</div><div class="event-opp">🚗 Riverside ↔ San Diego daily commuters; 42.9-min avg commute = car-dependent shoppers</div></div></div>
+    <div class="event-row"><div class="event-month">December</div><div><div class="event-name">Lake Elsinore Outlets Holiday Season</div><div class="event-opp">🎄 Value retail center; cross-promotional opportunity with outlet shoppers</div></div></div>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="section-title">Strategic Insights</div>
+    <div class="insight-box">
+      <div class="insight-title">🌸 Super Bloom 2027 — START PLANNING NOW</div>
+      <div class="insight-body">Walker Canyon Poppy Reserve draws 100,000+ visitors to Lake Elsinore in March-April. Most visitors are from outside the area (LA/OC/SD). Huge opportunity: Weedmaps geo-targeted ads, Google Display targeting visitors near Walker Canyon, "Super Bloom Bundles" product packaging, "First Dispensary Visit" education kits for tourists. Begin planning by December 2026.</div>
+    </div>
+    <div class="insight-box">
+      <div class="insight-title">🔄 Customer Re-activation — 46,899 registered, only 1.98× usage</div>
+      <div class="insight-body">Nearly half of registered customers are lapsed (likely single-visit tourists, Super Bloom visitors, or customers lost to Healing Tree). Recommended: segment CRM into active (90-day) vs. lapsed (90-180 day) vs. dormant (180+ day). Launch SMS re-activation with "We miss you" deal — target dormant segment with 20% off return visit.</div>
+    </div>
+    <div class="insight-box">
+      <div class="insight-title">⏰ Hours Competition vs Healing Tree</div>
+      <div class="insight-body">Healing Tree opens 7AM. EMBR should consider matching early hours on high-traffic days (weekends, holidays) to capture commuters and early-bird shoppers. Even a Saturday/Sunday 7AM open would compete directly with Healing Tree's early advantage.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">May 2026 Priority Actions — Lake Elsinore</div>
+    <div class="action-item action-critical">
+      <div class="action-text"><span class="action-label lbl-critical">CRITICAL</span>Customer re-activation campaign: Pull all customers with 0 transactions in 90+ days. SMS/email campaign: "We miss you — here's 20% off your next visit." Segment and test messaging. 46,899 customers × even 5% return rate = 2,345 additional transactions.</div>
+    </div>
+    <div class="action-item action-high">
+      <div class="action-text"><span class="action-label lbl-high">HIGH</span>Super Bloom 2027 pre-planning: Confirm dates, begin Weedmaps ad spend planning for March 2027, design "Walker Canyon Bundle" product package, coordinate with Phat Panda for inventory build-up timing.</div>
+    </div>
+    <div class="action-item action-high">
+      <div class="action-text"><span class="action-label lbl-high">HIGH</span>Veteran/military discount activation: Lake Elsinore has 2.75× national average Gulf War veteran population. Prominently market veteran discount in store and on all digital platforms. This segment is loyal, higher-spend, and underserved in LE market.</div>
+    </div>
+    <div class="action-item action-medium">
+      <div class="action-text"><span class="action-label lbl-medium">MEDIUM</span>Weedmaps regional SEO: Target keywords beyond "Lake Elsinore" — "Wildomar dispensary", "Canyon Lake cannabis", "Perris dispensary", "Menifee cannabis", "Temecula area dispensary". Regional draw customers from underserved cities are high-value.</div>
+    </div>
+    <div class="action-item action-medium">
+      <div class="action-text"><span class="action-label lbl-medium">MEDIUM</span>SKU audit: 2,041 active SKUs — largest in portfolio. Ensure fast-moving products are well-stocked and slow-movers are being managed. Healing Tree's strength is "always has items in stock" (Weedmaps reviews) — match this reliability.</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Phat Panda Group — Retail Analytics System | EMBR Lake Elsinore Store 05 | Monthly Dashboard May 2026<br>
+  Data sources: Dutchie POS (last sync 2026-05-08), Weedmaps, Leafly, Yelp, CA DCC, 1-zip.com
+</div>
+
+</body>
+</html>
