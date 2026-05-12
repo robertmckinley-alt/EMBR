@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phat Panda Group — Monthly Dashboard | May 2026</title>
+<style>
+  :root {
+    --bg: #0a0e1a; --surface: #131726; --card: #1c2035; --border: #252a45;
+    --accent: #8b5cf6; --accent2: #38bdf8; --accent3: #4ade80; --accent4: #fbbf24; --accent5: #f87171;
+    --text: #e2e8f0; --muted: #94a3b8; --white: #f8fafc;
+    --ma-dark: #4f46e5; --ma-light: #818cf8;
+    --ca-dark: #0891b2; --ca-light: #67e8f9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; }
+
+  /* HEADER */
+  .header { background: linear-gradient(135deg, #0f0a2e 0%, #081930 50%, #0a1525 100%); padding: 32px 36px; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+  .header::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234f46e5' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); pointer-events: none; }
+  .header h1 { font-size: 26px; font-weight: 800; color: var(--white); letter-spacing: -0.5px; position: relative; z-index: 1; }
+  .header .subtitle { color: var(--muted); font-size: 14px; margin-top: 6px; position: relative; z-index: 1; }
+  .header-chips { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .chip { padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .chip-ma { background: #4f46e522; color: var(--ma-light); border: 1px solid #4f46e544; }
+  .chip-ca { background: #0891b222; color: var(--ca-light); border: 1px solid #0891b244; }
+  .chip-warn { background: #fbbf2422; color: var(--accent4); border: 1px solid #fbbf2444; }
+  .chip-ok { background: #4ade8022; color: var(--accent3); border: 1px solid #4ade8044; }
+
+  .container { max-width: 1600px; margin: 0 auto; padding: 28px 36px; }
+
+  /* SECTION HEADERS */
+  .section-header { display: flex; align-items: center; gap: 12px; margin: 32px 0 16px; }
+  .section-icon { font-size: 20px; }
+  .section-title { font-size: 16px; font-weight: 700; color: var(--white); }
+  .section-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* PORTFOLIO HEALTH */
+  .health-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  .health-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+  .health-icon { font-size: 28px; }
+  .health-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
+  .health-value { font-size: 28px; font-weight: 800; color: var(--white); line-height: 1; }
+  .health-context { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .health-trend { font-size: 12px; font-weight: 600; }
+  .trend-up { color: var(--accent3); }
+  .trend-down { color: var(--accent5); }
+  .trend-flat { color: var(--accent4); }
+  .trend-neutral { color: var(--muted); }
+
+  /* STORE PERFORMANCE TABLE */
+  .perf-table { width: 100%; border-collapse: collapse; margin-bottom: 28px; }
+  .perf-table th { background: var(--surface); padding: 10px 14px; text-align: left; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; border-bottom: 1px solid var(--border); }
+  .perf-table td { padding: 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .perf-table tr:last-child td { border-bottom: none; }
+  .perf-table tr:hover td { background: var(--surface); }
+  .store-name-cell { font-weight: 700; color: var(--white); font-size: 14px; }
+  .store-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .ma-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ma-light); display: inline-block; margin-right: 6px; }
+  .ca-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ca-light); display: inline-block; margin-right: 6px; }
+  .off-dot { width: 8px; height: 8px; border-radius: 50%; background: #525252; display: inline-block; margin-right: 6px; }
+
+  .metric-cell { text-align: right; }
+  .metric-big { font-size: 18px; font-weight: 700; color: var(--white); }
+  .metric-small { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .score-bar { width: 100%; height: 6px; background: var(--surface); border-radius: 3px; overflow: hidden; margin-top: 4px; }
+  .score-fill { height: 100%; border-radius: 3px; }
+  .fill-ma { background: linear-gradient(90deg, var(--ma-dark), var(--ma-light)); }
+  .fill-ca { background: linear-gradient(90deg, var(--ca-dark), var(--ca-light)); }
+  .fill-off { background: #424242; }
+
+  .status-badge { display: inline-block; padding: 3px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+  .status-live { background: #4ade8022; color: var(--accent3); border: 1px solid #4ade8044; }
+  .status-offline { background: #f8717122; color: var(--accent5); border: 1px solid #f8717144; }
+  .status-mono { background: #fbbf2422; color: var(--accent4); border: 1px solid #fbbf2444; }
+
+  .tag-list { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+  .tag { padding: 2px 8px; border-radius: 6px; font-size: 10px; background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+
+  /* MARKET CONTEXT */
+  .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 28px; }
+  .market-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+  .market-card h3 { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .market-card .market-sub { font-size: 12px; color: var(--muted); margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+
+  .stat-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { font-size: 12px; color: var(--muted); }
+  .stat-value { font-size: 13px; font-weight: 600; color: var(--text); }
+  .stat-value.highlight { color: var(--white); font-size: 15px; }
+
+  /* OPPORTUNITY CARDS */
+  .opp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+  .opp-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+  .opp-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .opp-icon { font-size: 22px; }
+  .opp-title { font-size: 13px; font-weight: 700; color: var(--white); }
+  .opp-store { font-size: 11px; color: var(--muted); }
+  .opp-list { list-style: none; }
+  .opp-list li { font-size: 12px; color: var(--text); padding: 5px 0; border-bottom: 1px solid var(--border); display: flex; gap: 8px; align-items: flex-start; }
+  .opp-list li:last-child { border-bottom: none; }
+  .opp-list li::before { content: '→'; color: var(--accent4); flex-shrink: 0; }
+  .priority-high { border-left: 3px solid var(--accent5); }
+  .priority-med { border-left: 3px solid var(--accent4); }
+  .priority-low { border-left: 3px solid var(--accent3); }
+
+  /* CALENDAR */
+  .calendar-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px; margin-bottom: 28px; }
+  .cal-month { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 8px; min-height: 80px; }
+  .cal-month-name { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; text-align: center; }
+  .cal-event { font-size: 9px; padding: 2px 4px; border-radius: 3px; margin-bottom: 3px; line-height: 1.3; }
+  .cal-event.ma { background: #4f46e533; color: var(--ma-light); }
+  .cal-event.ca { background: #0891b233; color: var(--ca-light); }
+  .cal-event.all { background: #8b5cf633; color: #c4b5fd; }
+  .cal-month.current { border-color: var(--accent); }
+  .cal-current-label { font-size: 8px; color: var(--accent); text-align: center; margin-bottom: 3px; }
+
+  /* INSIGHTS */
+  .insight-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+  .insight-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+  .insight-card h3 { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
+  .insight-item { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 12px; color: var(--text); display: flex; gap: 8px; align-items: flex-start; }
+  .insight-item:last-child { border-bottom: none; }
+  .i-icon { flex-shrink: 0; font-size: 14px; }
+
+  .footer { background: var(--surface); border-top: 1px solid var(--border); padding: 16px 36px; color: var(--muted); font-size: 11px; display: flex; justify-content: space-between; align-items: center; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🌿 Phat Panda Group — Monthly Dashboard</h1>
+  <div class="subtitle">Month of May 2026 | Cross-Store Portfolio Analysis | Phat Panda Group Retail Analytics</div>
+  <div class="header-chips">
+    <span class="chip chip-ma">📍 MA: 3 Stores</span>
+    <span class="chip chip-ca">📍 CA: 3 Stores</span>
+    <span class="chip chip-warn">⚠️ Springfield Auth Offline</span>
+    <span class="chip chip-ok">✅ 5 Stores Live</span>
+    <span class="chip" style="background:#1a1a2e; color:#6366f1; border:1px solid #6366f133;">Generated: 2026-05-11</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- PORTFOLIO HEALTH -->
+  <div class="section-header">
+    <span class="section-icon">💼</span>
+    <span class="section-title">Portfolio Health Overview — May 2026</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="health-grid">
+    <div class="health-card">
+      <span class="health-icon">📊</span>
+      <div class="health-label">Total Historical Transactions</div>
+      <div class="health-value">797K+</div>
+      <div class="health-context">Across 5 live-connected stores. Springfield excluded (auth offline).</div>
+      <div class="health-trend trend-neutral">Portfolio-level volume baseline</div>
+    </div>
+    <div class="health-card">
+      <span class="health-icon">👥</span>
+      <div class="health-label">Total Customer File</div>
+      <div class="health-value">262K+</div>
+      <div class="health-context">Combined loyalty/customer database. Fyre Ants leads with 64K.</div>
+      <div class="health-trend trend-up">↑ Large addressable base</div>
+    </div>
+    <div class="health-card">
+      <span class="health-icon">📦</span>
+      <div class="health-label">Total Inventory Lines (Active)</div>
+      <div class="health-value">9,825</div>
+      <div class="health-context">Combined inventory records across 5 stores. Lake Elsinore highest at 2,041.</div>
+      <div class="health-trend trend-neutral">Deep inventory depth across portfolio</div>
+    </div>
+    <div class="health-card">
+      <span class="health-icon">🗂️</span>
+      <div class="health-label">Total Active SKUs</div>
+      <div class="health-value">120K+</div>
+      <div class="health-context">Product catalog entries. Some overlap across stores expected.</div>
+      <div class="health-trend trend-neutral">Significant catalog breadth</div>
+    </div>
+  </div>
+
+  <!-- STORE PERFORMANCE TABLE -->
+  <div class="section-header">
+    <span class="section-icon">🏪</span>
+    <span class="section-title">Store-by-Store Monthly Performance Summary</span>
+    <div class="section-line"></div>
+  </div>
+
+  <table class="perf-table">
+    <thead>
+      <tr>
+        <th style="width:200px">Store</th>
+        <th>Status</th>
+        <th style="text-align:right">Transactions (All-Time)</th>
+        <th style="text-align:right">Customer Base</th>
+        <th style="text-align:right">Inventory Lines</th>
+        <th style="text-align:right">SKUs</th>
+        <th>Market Position</th>
+        <th>Key May Priorities</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <td>
+          <div class="store-name-cell"><span class="off-dot"></span>EMBR Springfield</div>
+          <div class="store-sub">Springfield, MA | Hampden Co.</div>
+        </td>
+        <td><span class="status-badge status-offline">⚠️ Offline</span></td>
+        <td class="metric-cell"><div class="metric-big">—</div><div class="metric-small">Auth failed</div></td>
+        <td class="metric-cell"><div class="metric-big">—</div></td>
+        <td class="metric-cell"><div class="metric-big">—</div></td>
+        <td class="metric-cell"><div class="metric-big">—</div></td>
+        <td>
+          <div class="tag-list">
+            <span class="tag">Urban</span><span class="tag">155K Pop</span><span class="tag">CT Border Draw</span><span class="tag">High Competition</span>
+          </div>
+          <div style="font-size:11px; color:var(--muted); margin-top:6px">Zaza Green, 6Bricks, INSA competing</div>
+        </td>
+        <td style="font-size:12px; color:var(--accent5);">Restore API auth — critical priority. Contact Dutchie Support.</td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="store-name-cell"><span class="ma-dot"></span>EMBR Northampton</div>
+          <div class="store-sub">Northampton, MA | Hampshire Co.</div>
+        </td>
+        <td><span class="status-badge status-live">✅ Live</span></td>
+        <td class="metric-cell">
+          <div class="metric-big">183,582</div>
+          <div class="score-bar"><div class="score-fill fill-ma" style="width:55%"></div></div>
+          <div class="metric-small">2nd highest MA</div>
+        </td>
+        <td class="metric-cell"><div class="metric-big">44,000</div><div class="metric-small">est. active</div></td>
+        <td class="metric-cell"><div class="metric-big">939</div></td>
+        <td class="metric-cell"><div class="metric-big">27,460</div></td>
+        <td>
+          <div class="tag-list">
+            <span class="tag">Academic Hub</span><span class="tag">LGBTQ+</span><span class="tag">Liberal</span><span class="tag">HHI $80K</span><span class="tag">62% College Grad</span>
+          </div>
+          <div style="font-size:11px; color:var(--muted); margin-top:6px">10+ HCAs in Northampton. Honey main competitor.</div>
+        </td>
+        <td style="font-size:12px; color:var(--text);">Pride Month prep (June); Weedmaps optimization; Smith College end-of-year window</td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="store-name-cell"><span class="ma-dot"></span>Fyre Ants Easthampton</div>
+          <div class="store-sub">Easthampton, MA | Hampshire Co.</div>
+        </td>
+        <td><span class="status-badge status-live">✅ Live</span></td>
+        <td class="metric-cell">
+          <div class="metric-big">315,628</div>
+          <div class="score-bar"><div class="score-fill fill-ma" style="width:95%"></div></div>
+          <div class="metric-small" style="color:var(--accent3)">🏆 Highest MA volume</div>
+        </td>
+        <td class="metric-cell"><div class="metric-big">64,199</div><div class="metric-small" style="color:var(--accent3)">Largest customer file</div></td>
+        <td class="metric-cell"><div class="metric-big">1,174</div></td>
+        <td class="metric-cell"><div class="metric-big">31,455</div></td>
+        <td>
+          <div class="tag-list">
+            <span class="tag">Arts District</span><span class="tag">Mill Buildings</span><span class="tag">HHI $76K</span><span class="tag">Cap = 6 Stores</span>
+          </div>
+          <div style="font-size:11px; color:var(--accent5); margin-top:6px">🚨 OZ Club just opened — outlet/bulk model</div>
+        </td>
+        <td style="font-size:12px; color:var(--text);">Loyalty program defense vs OZ Club; competitive pricing review; community engagement</td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="store-name-cell"><span class="ca-dot"></span>EMBR La Mesa</div>
+          <div class="store-sub">La Mesa, CA | San Diego Co.</div>
+        </td>
+        <td><span class="status-badge status-live">✅ Live</span></td>
+        <td class="metric-cell">
+          <div class="metric-big">184,491</div>
+          <div class="score-bar"><div class="score-fill fill-ca" style="width:90%"></div></div>
+          <div class="metric-small" style="color:var(--accent3)">🏆 Highest CA volume</div>
+        </td>
+        <td class="metric-cell"><div class="metric-big">48,599</div></td>
+        <td class="metric-cell"><div class="metric-big">1,159</div></td>
+        <td class="metric-cell"><div class="metric-big">27,711</div></td>
+        <td>
+          <div class="tag-list">
+            <span class="tag">Suburban SD</span><span class="tag">HHI $95K</span><span class="tag">61 Competitors</span><span class="tag">SDSU 10min</span><span class="tag">Military</span>
+          </div>
+          <div style="font-size:11px; color:var(--accent5); margin-top:6px">Hypercompetitive — 61 Weedmaps listings</div>
+        </td>
+        <td style="font-size:12px; color:var(--text);">Weedmaps profile optimization; SDSU end-of-semester; vertical integration marketing</td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="store-name-cell"><span class="ca-dot"></span>EMBR Lake Elsinore</div>
+          <div class="store-sub">Lake Elsinore, CA | Riverside Co.</div>
+        </td>
+        <td><span class="status-badge status-live">✅ Live</span></td>
+        <td class="metric-cell">
+          <div class="metric-big">92,707</div>
+          <div class="score-bar"><div class="score-fill fill-ca" style="width:45%"></div></div>
+          <div class="metric-small" style="color:var(--accent5)">Low vs customer base size</div>
+        </td>
+        <td class="metric-cell"><div class="metric-big">46,899</div><div class="metric-small">Ratio flag: 47K cust / 93K trans</div></td>
+        <td class="metric-cell"><div class="metric-big">2,041</div><div class="metric-small" style="color:var(--accent4)">Largest inventory!</div></td>
+        <td class="metric-cell"><div class="metric-big">29,605</div></td>
+        <td>
+          <div class="tag-list">
+            <span class="tag">Riverside Co</span><span class="tag">HHI $102K</span><span class="tag">Regional Draw</span><span class="tag">Young Families</span><span class="tag">I-15 Access</span>
+          </div>
+          <div style="font-size:11px; color:var(--accent4); margin-top:6px">Super Bloom season just ended — analyze uplift</div>
+        </td>
+        <td style="font-size:12px; color:var(--text);">Audit large inventory for dead stock; customer activation campaign; Storm Stadium partnership</td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="store-name-cell"><span class="ca-dot"></span>Higher Level Greenfield</div>
+          <div class="store-sub">Greenfield, CA | Monterey Co.</div>
+        </td>
+        <td><span class="status-badge status-mono">⭐ Monopoly</span></td>
+        <td class="metric-cell">
+          <div class="metric-big">21,281</div>
+          <div class="score-bar"><div class="score-fill fill-ca" style="width:10%"></div></div>
+          <div class="metric-small" style="color:var(--accent5)">Very low vs customer base</div>
+        </td>
+        <td class="metric-cell"><div class="metric-big">58,493</div><div class="metric-small" style="color:var(--accent4)">⚠️ 58K customers, 21K trans?</div></td>
+        <td class="metric-cell"><div class="metric-big">3,512</div></td>
+        <td class="metric-cell"><div class="metric-big">4,521</div></td>
+        <td>
+          <div class="tag-list">
+            <span class="tag">96% Hispanic</span><span class="tag">Agriculture</span><span class="tag">Hwy 101</span><span class="tag">Only Dispensary</span><span class="tag">Young Pop</span>
+          </div>
+          <div style="font-size:11px; color:var(--accent3); margin-top:6px">No local competition. Monopoly advantage.</div>
+        </td>
+        <td style="font-size:12px; color:var(--text);">Investigate customer-transaction ratio gap; Spanish marketing launch; Hwy 101 signage / visibility</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <!-- KEY INSIGHT: CUSTOMER-TRANSACTION RATIOS -->
+  <div class="section-header">
+    <span class="section-icon">⚠️</span>
+    <span class="section-title">Critical Insight: Customer-to-Transaction Gap</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div style="background: var(--card); border: 1px solid var(--accent5); border-radius: 12px; padding: 22px; margin-bottom: 28px;">
+    <div style="font-size:14px; font-weight:700; color: var(--accent5); margin-bottom:12px;">⚠️ Two stores show a significant ratio anomaly requiring investigation</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+      <div>
+        <div style="font-size:13px; font-weight:600; color:var(--white); margin-bottom:8px;">Higher Level Greenfield</div>
+        <div style="font-size:12px; color:var(--text); margin-bottom:6px;">58,493 customers on file | 21,281 transactions (all-time)</div>
+        <div style="font-size:12px; color:var(--muted);">Ratio: 2.7 transactions per registered customer (extremely low). This could indicate:</div>
+        <ul style="font-size:12px; color:var(--text); margin-top:8px; padding-left:20px; line-height:1.8;">
+          <li>Customer file includes one-time visitors never re-activated</li>
+          <li>Large cash-transaction population not being captured in loyalty system</li>
+          <li>Menu/product-fit issue (agricultural community specific needs)</li>
+          <li>Marketing gap — not reaching registered customers post-visit</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:13px; font-weight:600; color:var(--white); margin-bottom:8px;">EMBR Lake Elsinore</div>
+        <div style="font-size:12px; color:var(--text); margin-bottom:6px;">46,899 customers on file | 92,707 transactions (all-time)</div>
+        <div style="font-size:12px; color:var(--muted);">Ratio: ~2.0 transactions per customer. While better than Greenfield, the 2,041 inventory lines suggest excess stock relative to transaction volume. Possible issues:</div>
+        <ul style="font-size:12px; color:var(--text); margin-top:8px; padding-left:20px; line-height:1.8;">
+          <li>Newer store (lower all-time history) building toward scale</li>
+          <li>Super Bloom season (March–April) may have spiked customer acquisition but not ongoing loyalty</li>
+          <li>Inventory over-ordered vs actual demand — dead stock risk</li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:14px; padding:12px; background:var(--surface); border-radius:8px; font-size:12px; color:var(--accent4);">
+      📋 RECOMMENDED ACTION: Pull transaction frequency distribution for both stores. Identify % of customers with 1 transaction vs 2+ vs 5+. Deploy re-engagement campaign to 1-time customers with targeted offer.
+    </div>
+  </div>
+
+  <!-- MARKET CONTEXT -->
+  <div class="section-header">
+    <span class="section-icon">📈</span>
+    <span class="section-title">State Market Context — May 2026</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="market-grid">
+    <div class="market-card">
+      <h3>🦋 Massachusetts Cannabis Market</h3>
+      <div class="market-sub">3 stores (EMBR Northampton, Fyre Ants Easthampton, EMBR Springfield)</div>
+      <div class="stat-row"><span class="stat-label">2025 State Sales</span><span class="stat-value highlight">$1.65B</span></div>
+      <div class="stat-row"><span class="stat-label">YoY Change</span><span class="stat-value" style="color:var(--accent4)">Flat vs 2024</span></div>
+      <div class="stat-row"><span class="stat-label">Licensed Retailers</span><span class="stat-value">500+</span></div>
+      <div class="stat-row"><span class="stat-label">Businesses Closed/Shrunk (2024–25)</span><span class="stat-value" style="color:var(--accent5)">60+</span></div>
+      <div class="stat-row"><span class="stat-label">Avg Gram Price (April 2024)</span><span class="stat-value">$5.36 (-62% from 2018)</span></div>
+      <div class="stat-row"><span class="stat-label">Cannabis Use Rate (MA Residents)</span><span class="stat-value">~30% (5th nationally)</span></div>
+      <div class="stat-row"><span class="stat-label">Top Product Category</span><span class="stat-value">Flower 40% of weekly sales</span></div>
+      <div class="stat-row"><span class="stat-label">CT Border Premium</span><span class="stat-value" style="color:var(--accent3)">MA 48% cheaper than CT → cross-border traffic</span></div>
+      <div style="margin-top:14px; padding:10px; background:var(--surface); border-radius:8px; font-size:12px; color:var(--accent4);">
+        ⚠️ Market saturation: 60+ MA cannabis businesses closing. Differentiation, loyalty, and experience are now survival requirements — not just advantages.
+      </div>
+    </div>
+    <div class="market-card">
+      <h3>🌞 California Cannabis Market</h3>
+      <div class="market-sub">3 stores (EMBR La Mesa, EMBR Lake Elsinore, Higher Level Greenfield)</div>
+      <div class="stat-row"><span class="stat-label">2025 State Sales (Headset)</span><span class="stat-value highlight">$3.97B</span></div>
+      <div class="stat-row"><span class="stat-label">YoY Change</span><span class="stat-value" style="color:var(--accent5)">-7% vs 2024 ($4.27B)</span></div>
+      <div class="stat-row"><span class="stat-label">Key Market Trend</span><span class="stat-value">Licensed retail growing; illicit market large</span></div>
+      <div class="stat-row"><span class="stat-label">State Excise Tax Change</span><span class="stat-value" style="color:var(--accent5)">↑ January 2025 (headwind)</span></div>
+      <div class="stat-row"><span class="stat-label">Platform Flower Price (May 2025)</span><span class="stat-value">~$1,020/lb (-$100/lb YoY)</span></div>
+      <div class="stat-row"><span class="stat-label">AB 1775 (Sept 2024)</span><span class="stat-value">Social consumption lounges enabled</span></div>
+      <div class="stat-row"><span class="stat-label">EMBR Advantage (CA)</span><span class="stat-value" style="color:var(--accent3)">Vertical integration via Phat Panda</span></div>
+      <div class="stat-row"><span class="stat-label">Greenfield Market</span><span class="stat-value" style="color:var(--accent3)">1 dispensary city — monopoly</span></div>
+      <div style="margin-top:14px; padding:10px; background:var(--surface); border-radius:8px; font-size:12px; color:var(--accent3);">
+        ✅ EMBR vertical integration = direct access to Phat Panda cultivation. Use this as primary competitive differentiator in all CA marketing.
+      </div>
+    </div>
+  </div>
+
+  <!-- PROMOTIONAL CALENDAR -->
+  <div class="section-header">
+    <span class="section-icon">📅</span>
+    <span class="section-title">12-Month Promotional Event Calendar</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="calendar-grid">
+    <div class="cal-month">
+      <div class="cal-month-name">Jan</div>
+      <div class="cal-event all">New Year deals</div>
+      <div class="cal-event all">Winter wellness push (sleep/pain)</div>
+    </div>
+    <div class="cal-month">
+      <div class="cal-month-name">Feb</div>
+      <div class="cal-event all">Valentine's Day gifting (edibles)</div>
+      <div class="cal-event all">Valentine promotions</div>
+    </div>
+    <div class="cal-month">
+      <div class="cal-month-name">Mar</div>
+      <div class="cal-event ca">Super Bloom (Elsinore)</div>
+      <div class="cal-event ca">Spring planting (Greenfield agri)</div>
+      <div class="cal-event ma">Smith College spring event</div>
+    </div>
+    <div class="cal-month">
+      <div class="cal-month-name">Apr</div>
+      <div class="cal-event all">4/20 Holiday — ALL stores</div>
+      <div class="cal-event ca">Super Bloom peak (Elsinore)</div>
+      <div class="cal-event ca">Wine country spring (Greenfield)</div>
+    </div>
+    <div class="cal-month current">
+      <div class="cal-current-label">◀ NOW</div>
+      <div class="cal-month-name">May</div>
+      <div class="cal-event all">Memorial Day (May 26)</div>
+      <div class="cal-event ma">Academic year end (MA stores)</div>
+      <div class="cal-event ca">Spring agri season (Greenfield)</div>
+    </div>
+    <div class="cal-month">
+      <div class="cal-month-name">Jun</div>
+      <div class="cal-event ma">Northampton Pride (LGBTQ+)</div>
+      <div class="cal-event ca">SD County Fair (La Mesa)</div>
+      <div class="cal-event all">Summer kick-off promotions</div>
+    </div>
+    <div class="cal-month">
+      <div class="cal-month-name">Jul</div>
+      <div class="cal-event ca">Comic-Con San Diego (La Mesa)</div>
+      <div class="cal-event ca">4th July Lake Elsinore lakeside</div>
+      <div class="cal-event ma">Pioneer Valley summer tourism</div>
+    </div>
+    <div class="cal-month">
+      <div class="cal-month-name">Aug</div>
+      <div class="cal-event ma">MA peak sales month ($148M)</div>
+      <div class="cal-event ma">Back-to-school (UMass, Smith)</div>
+      <div class="cal-event all">Summer inventory push</div>
+    </div>
+    <div class="cal-month">
+      <div class="cal-month-name">Sep</div>
+      <div class="cal-event ma">Big E / Eastern States Expo (Springfield)</div>
+      <div class="cal-event ma">UMass fall semester begins</div>
+      <div class="cal-event ca">Harvest season (Greenfield agri)</div>
+    </div>
+    <div class="cal-month">
+      <div class="cal-month-name">Oct</div>
+      <div class="cal-event ca">Oktoberfest La Mesa (~100K attnd)</div>
+      <div class="cal-event ma">Pioneer Valley leaf-peeper tourism</div>
+      <div class="cal-event ca">Día de los Muertos (Greenfield)</div>
+    </div>
+    <div class="cal-month">
+      <div class="cal-month-name">Nov</div>
+      <div class="cal-event all">Veteran's Day (Nov 11)</div>
+      <div class="cal-event all">Thanksgiving holiday</div>
+      <div class="cal-event ma">Bright Nights Springfield begins</div>
+    </div>
+    <div class="cal-month">
+      <div class="cal-month-name">Dec</div>
+      <div class="cal-event all">Holiday gift sets / bundles</div>
+      <div class="cal-event ma">Bright Nights Springfield</div>
+      <div class="cal-event all">Year-end loyalty rewards push</div>
+    </div>
+  </div>
+
+  <!-- STRATEGIC OPPORTUNITIES -->
+  <div class="section-header">
+    <span class="section-icon">🚀</span>
+    <span class="section-title">Top Strategic Opportunities — May 2026</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="opp-grid">
+    <div class="opp-card priority-high">
+      <div class="opp-header">
+        <span class="opp-icon">⚡</span>
+        <div><div class="opp-title">Springfield API Restoration</div><div class="opp-store">EMBR Springfield — Priority #1</div></div>
+      </div>
+      <ul class="opp-list">
+        <li>Contact Dutchie Support immediately (support@dutchie.com)</li>
+        <li>Request scope additions for c67cd10c... API key</li>
+        <li>Springfield CT border dynamic = major revenue opportunity being unmeasured</li>
+        <li>Big E (Sep–Oct) is 6 months away — need data now to prepare</li>
+      </ul>
+    </div>
+    <div class="opp-card priority-high">
+      <div class="opp-header">
+        <span class="opp-icon">🌿</span>
+        <div><div class="opp-title">Greenfield Customer Activation</div><div class="opp-store">Higher Level Greenfield</div></div>
+      </div>
+      <ul class="opp-list">
+        <li>58K customer file with only 21K transactions = massive re-activation opportunity</li>
+        <li>Spanish-language SMS/email campaign to dormant customers</li>
+        <li>Community event sponsorship (Harvest Festival, Cinco de Mayo)</li>
+        <li>Payday-cycle promotions (agricultural cash economy)</li>
+      </ul>
+    </div>
+    <div class="opp-card priority-high">
+      <div class="opp-header">
+        <span class="opp-icon">⚔️</span>
+        <div><div class="opp-title">Fyre Ants Loyalty Defense</div><div class="opp-store">Fyre Ants Easthampton</div></div>
+      </div>
+      <ul class="opp-list">
+        <li>OZ Club opened with "outlet model" bulk pricing — direct threat</li>
+        <li>Launch/strengthen loyalty rewards program for 64K customer base</li>
+        <li>Curate exclusive products (not available at bulk discounters)</li>
+        <li>Mill district / arts community identity for differentiation</li>
+      </ul>
+    </div>
+    <div class="opp-card priority-med">
+      <div class="opp-header">
+        <span class="opp-icon">🏆</span>
+        <div><div class="opp-title">Northampton Pride Campaign</div><div class="opp-store">EMBR Northampton</div></div>
+      </div>
+      <ul class="opp-list">
+        <li>June Northampton Pride = one of Northeast's largest LGBTQ+ events</li>
+        <li>Rainbow product packaging / themed bundles</li>
+        <li>Pride-month daily specials; community sponsorship</li>
+        <li>Weedmaps + local media (Daily Hampshire Gazette) push</li>
+      </ul>
+    </div>
+    <div class="opp-card priority-med">
+      <div class="opp-header">
+        <span class="opp-icon">🗺️</span>
+        <div><div class="opp-title">La Mesa Weedmaps Dominance</div><div class="opp-store">EMBR La Mesa</div></div>
+      </div>
+      <ul class="opp-list">
+        <li>61 competitors on Weedmaps — optimization is table stakes for survival</li>
+        <li>Full photo refresh, menu keyword optimization, review response protocol</li>
+        <li>Promote Phat Panda vertical integration as primary brand signal</li>
+        <li>Military/veteran discount promotion (large San Diego military community)</li>
+      </ul>
+    </div>
+    <div class="opp-card priority-low">
+      <div class="opp-header">
+        <span class="opp-icon">📦</span>
+        <div><div class="opp-title">Lake Elsinore Inventory Audit</div><div class="opp-store">EMBR Lake Elsinore</div></div>
+      </div>
+      <ul class="opp-list">
+        <li>2,041 inventory lines vs 93K total transactions — audit for dead stock</li>
+        <li>Super Bloom uplift analysis (March–April): quantify event-driven revenue</li>
+        <li>Storm Stadium baseball season partnership</li>
+        <li>Canyon Lake / Wildomar commuter loyalty club launch</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- MONTHLY INSIGHTS -->
+  <div class="section-header">
+    <span class="section-icon">💡</span>
+    <span class="section-title">Category & Consumer Trends — May 2026</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="insight-grid">
+    <div class="insight-card">
+      <h3>📊 Product Category Trends</h3>
+      <div class="insight-item"><span class="i-icon">🌿</span>Flower: Still #1 at ~40% of MA weekly revenue. Declining wholesale prices = margin pressure.</div>
+      <div class="insight-item"><span class="i-icon">🔥</span>Pre-rolls: +12% revenue growth (fastest growing category Jun 2023–Jun 2024). Infused pre-rolls dominate (43% of segment).</div>
+      <div class="insight-item"><span class="i-icon">💨</span>Vape: Stable ~21% of MA mix; declining in some markets from oversupply.</div>
+      <div class="insight-item"><span class="i-icon">🍬</span>Edibles: 13% share; consumer shift toward lower doses (2.5–10mg preferred). Opportunity for low-dose SKU expansion.</div>
+      <div class="insight-item"><span class="i-icon">🥤</span>Beverages: Fastest growing nationally (+79–112% in MI/OH). Early-stage opportunity to stock ahead of curve.</div>
+    </div>
+    <div class="insight-card">
+      <h3>👥 Consumer Demographics</h3>
+      <div class="insight-item"><span class="i-icon">📱</span>Millennials (born 1981–96): 44.6% of pre-roll spend; heaviest volume buyers. Core segment for all stores.</div>
+      <div class="insight-item"><span class="i-icon">🧓</span>50+ consumers: FASTEST GROWING trial segment. Motivated by sleep, pain, anxiety. Less price-sensitive. More per-visit spend.</div>
+      <div class="insight-item"><span class="i-icon">👩</span>Women: 1 in 3 now consume; prefer edibles and infused products. Greenfield + suburban CA stores should curate for this.</div>
+      <div class="insight-item"><span class="i-icon">🎓</span>Gen Z (1997–2012): 18.5% of pre-roll spend, growing. Strong SDSU / UMass demographic opportunity.</div>
+      <div class="insight-item"><span class="i-icon">🎖️</span>Veterans: Well-defined discount-responsive niche. La Mesa + Lake Elsinore (military adjacent) = priority for vet programs.</div>
+    </div>
+    <div class="insight-card">
+      <h3>📣 Marketing Channel Performance</h3>
+      <div class="insight-item"><span class="i-icon">🗺️</span>Weedmaps: Primary discovery platform. Algorithm favors complete profiles, photos, fresh menus, reviews, geo-keywords.</div>
+      <div class="insight-item"><span class="i-icon">🔍</span>Google Business Profile: Critical for "dispensary near me" searches. Accuracy = ranking factor.</div>
+      <div class="insight-item"><span class="i-icon">💬</span>SMS/Email Marketing: Highest ROI channel for cannabis (Springbig). Compliant, direct, conversion-driven.</div>
+      <div class="insight-item"><span class="i-icon">🛒</span>Online Ordering: 25% of all sales now online. Dutchie menu embed + pickup orders = conversion opportunity.</div>
+      <div class="insight-item"><span class="i-icon">🎁</span>Loyalty Programs: Single highest-impact retention tool. Priority for Fyre Ants + Greenfield customer re-activation.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>Phat Panda Group Retail Analytics | Monthly Dashboard | May 2026</span>
+  <span>Data Sources: Dutchie POS API (5 stores) + Census ACS 2024 + Weedmaps + MA CCC + CA DCC + Flowhub + MJBiz + CRB Monitor + San Diego Reader</span>
+  <span>File: Dashboards/MONTHLY_DASHBOARD_ALL_STORES_2026-05.html</span>
+</div>
+
+</body>
+</html>
