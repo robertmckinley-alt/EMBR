@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phat Panda Group — Retail Dashboards</title>
+<style>
+  :root { --bg:#0d0f14; --surface:#171c26; --surface-2:#1e2535; --accent:#8b5cf6; --accent-2:#a78bfa; --good:#4ade80; --warn:#f5c842; --bad:#f87171; --blue:#60a5fa; --text:#e2e8f0; --muted:#94a3b8; --border:#2d3748; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; min-height: 100vh; padding: 32px 20px; line-height: 1.5; }
+  .container { max-width: 1200px; margin: 0 auto; }
+  .hero { background: linear-gradient(135deg, #1e1040, #120a2e); border: 1px solid #4c1d95; border-radius: 16px; padding: 36px 32px; margin-bottom: 28px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -50%; right: -10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%); pointer-events: none; }
+  .eyebrow { color: var(--accent-2); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; }
+  h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; line-height: 1.2; }
+  .hero-sub { color: var(--muted); font-size: 15px; max-width: 700px; }
+  .meta-row { display: flex; gap: 28px; margin-top: 20px; flex-wrap: wrap; font-size: 13px; }
+  .meta-item { color: var(--muted); }
+  .meta-item strong { color: var(--text); display: block; font-size: 20px; font-weight: 700; }
+  .section-header { display: flex; justify-content: space-between; align-items: baseline; margin: 36px 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .section-header h2 { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
+  .section-header .hint { color: var(--muted); font-size: 12px; }
+  .store-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 18px; margin-bottom: 8px; }
+  .store-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: border-color 0.18s, transform 0.18s; display: flex; flex-direction: column; }
+  .store-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .store-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+  .store-name { font-size: 18px; font-weight: 700; }
+  .store-location { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+  .badge { font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 3px 10px; border-radius: 10px; white-space: nowrap; }
+  .badge-active { background: #14532d; color: #86efac; }
+  .badge-offline { background: #7f1d1d; color: #fca5a5; }
+  .badge-rollup { background: #1e3a5f; color: #93c5fd; }
+  .badge-mono { background: #78350f; color: #fde68a; }
+  .report-list { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; }
+  .report-link { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 10px; background: var(--surface-2); border-radius: 8px; color: var(--text); text-decoration: none; font-size: 13px; transition: background 0.15s; }
+  .report-link:hover { background: #283147; }
+  .report-link .arrow { color: var(--accent); font-weight: 700; }
+  .report-link .type { display: inline-block; font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(139, 92, 246, 0.2); color: var(--accent-2); margin-right: 6px; font-weight: 700; letter-spacing: 0.5px; }
+  .report-link .type.weekly { background: rgba(96, 165, 250, 0.2); color: var(--blue); }
+  .rollup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 8px; }
+  @media (max-width: 720px) { .rollup-grid { grid-template-columns: 1fr; } }
+  .rollup-card { background: linear-gradient(135deg, #1e1040, #120a2e); border: 1px solid #4c1d95; border-radius: 12px; padding: 20px; }
+  .rollup-card .store-name { color: var(--accent-2); }
+  .notice { background: var(--surface-2); border: 1px solid var(--border); border-left: 3px solid var(--blue); border-radius: 8px; padding: 14px 18px; margin-bottom: 24px; font-size: 13px; color: var(--muted); }
+  .notice strong { color: var(--text); }
+  .notice a { color: var(--accent-2); text-decoration: none; }
+  .notice a:hover { text-decoration: underline; }
+  footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); }
+  footer a { color: var(--blue); text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <div class="eyebrow">Phat Panda Group — Retail Analytics</div>
+    <h1>Store Dashboards</h1>
+    <p class="hero-sub">Monthly performance dashboards for every active retail location — KPIs, competitor intelligence, event calendars, and prioritized actions, all served from this site. Weekly snapshots and All-Stores rollups live in the source Drive folder.</p>
+    <div class="meta-row">
+      <div class="meta-item"><strong>6</strong>Active Stores</div>
+      <div class="meta-item"><strong>May 2026</strong>Reporting Period</div>
+      <div class="meta-item"><strong>Week of May 11</strong>Latest Weekly</div>
+    </div>
+  </div>
+
+  <div class="notice">
+    <strong>Looking for weekly data or the All-Stores rollups?</strong> Open the <a href="https://drive.google.com/drive/folders/1GDfcv70HhcEOhxVxnhn0KmfEg_mR1VAx" target="_blank" rel="noopener">source Drive folder</a> — every WEEKLY_DASHBOARD_*.html and MONTHLY_DASHBOARD_ALL_STORES_*.html lives there. Click any file then "Open with → Browser" to render the dashboard.
+  </div>
+
+  <div class="section-header"><h2>Active Stores</h2><span class="hint">Click any monthly to open</span></div>
+  <div class="store-grid">
+
+    <div class="store-card">
+      <div class="store-head"><div><div class="store-name">EMBR Lake Elsinore</div><div class="store-location">Store 05 · 31881 Corydon Rd, Lake Elsinore, CA</div></div><span class="badge badge-active">ACTIVE</span></div>
+      <div class="report-list"><a class="report-link" href="reports/MONTHLY_DASHBOARD_EMBR_LAKE_ELSINORE_2026-05.html"><span><span class="type">MTHLY</span>May 2026 Monthly Dashboard</span><span class="arrow">→</span></a></div>
+    </div>
+
+    <div class="store-card">
+      <div class="store-head"><div><div class="store-name">EMBR La Mesa</div><div class="store-location">Store 04 · San Diego East County, CA</div></div><span class="badge badge-active">ACTIVE</span></div>
+      <div class="report-list"><a class="report-link" href="reports/MONTHLY_DASHBOARD_EMBR_LA_MESA_2026-05.html"><span><span class="type">MTHLY</span>May 2026 Monthly Dashboard</span><span class="arrow">→</span></a></div>
+    </div>
+
+    <div class="store-card">
+      <div class="store-head"><div><div class="store-name">EMBR Northampton</div><div class="store-location">Store 02 · 144 King St, Northampton, MA</div></div><span class="badge badge-active">ACTIVE</span></div>
+      <div class="report-list"><a class="report-link" href="reports/MONTHLY_DASHBOARD_EMBR_NORTHAMPTON_2026-05.html"><span><span class="type">MTHLY</span>May 2026 Monthly Dashboard</span><span class="arrow">→</span></a></div>
+    </div>
+
+    <div class="store-card">
+      <div class="store-head"><div><div class="store-name">EMBR Springfield</div><div class="store-location">Store 01 · Springfield, MA · POS auth offline</div></div><span class="badge badge-offline">POS OFFLINE</span></div>
+      <div class="report-list"><a class="report-link" href="reports/MONTHLY_DASHBOARD_EMBR_SPRINGFIELD_2026-05.html"><span><span class="type">MTHLY</span>May 2026 Monthly Dashboard</span><span class="arrow">→</span></a></div>
+    </div>
+
+    <div class="store-card">
+      <div class="store-head"><div><div class="store-name">Fyre Ants</div><div class="store-location">Store 03 · Easthampton, MA · Portfolio leader</div></div><span class="badge badge-active">ACTIVE</span></div>
+      <div class="report-list"><a class="report-link" href="reports/MONTHLY_DASHBOARD_FYRE_ANTS_2026-05.html"><span><span class="type">MTHLY</span>May 2026 Monthly Dashboard</span><span class="arrow">→</span></a></div>
+    </div>
+
+    <div class="store-card">
+      <div class="store-head"><div><div class="store-name">Higher Level Greenfield</div><div class="store-location">Store 06 · 48 4th St, Greenfield, CA · Monopoly market</div></div><span class="badge badge-mono">MONOPOLY</span></div>
+      <div class="report-list"><a class="report-link" href="reports/MONTHLY_DASHBOARD_HIGHER_LEVEL_GREENFIELD_2026-05.html"><span><span class="type">MTHLY</span>May 2026 Monthly Dashboard</span><span class="arrow">→</span></a></div>
+    </div>
+
+  </div>
+
+  <div class="section-header"><h2>Portfolio Rollups & Weekly Snapshots</h2><span class="hint">Hosted in Drive — opens in a new tab</span></div>
+  <div class="rollup-grid">
+
+    <div class="rollup-card store-card">
+      <div class="store-head"><div><div class="store-name">All Stores — Monthly Rollup</div><div class="store-location">Combined portfolio · May 2026 · 37 KB</div></div><span class="badge badge-rollup">ROLLUP</span></div>
+      <div class="report-list"><a class="report-link" href="https://drive.google.com/file/d/1u_t9ZCAT6B6zXY2jyLrpYsJeblSHUqZj/view" target="_blank" rel="noopener"><span><span class="type">MTHLY</span>Open in Drive</span><span class="arrow">↗</span></a></div>
+    </div>
+
+    <div class="rollup-card store-card">
+      <div class="store-head"><div><div class="store-name">All Stores — Weekly Rollup</div><div class="store-location">Combined portfolio · Week of May 11</div></div><span class="badge badge-rollup">ROLLUP</span></div>
+      <div class="report-list"><a class="report-link" href="https://drive.google.com/file/d/1_bjotUevzTQmDPOAESk3kWdXkJ8Ji8xp/view" target="_blank" rel="noopener"><span><span class="type weekly">WKLY</span>Open in Drive</span><span class="arrow">↗</span></a></div>
+    </div>
+
+    <div class="rollup-card store-card">
+      <div class="store-head"><div><div class="store-name">Per-store Weekly Dashboards</div><div class="store-location">All 7 weekly files · Week of May 11</div></div><span class="badge badge-rollup">WEEKLY</span></div>
+      <div class="report-list"><a class="report-link" href="https://drive.google.com/drive/folders/1GDfcv70HhcEOhxVxnhn0KmfEg_mR1VAx" target="_blank" rel="noopener"><span><span class="type weekly">WKLY</span>Browse all weeklies in Drive</span><span class="arrow">↗</span></a></div>
+    </div>
+
+    <div class="rollup-card store-card">
+      <div class="store-head"><div><div class="store-name">Prior Dashboards Archive</div><div class="store-location">Historical reports · all stores</div></div><span class="badge badge-rollup">ARCHIVE</span></div>
+      <div class="report-list"><a class="report-link" href="https://drive.google.com/drive/folders/1qXaSLCLC8uQuq3zdecW3RX7I1A2Gzxx2" target="_blank" rel="noopener"><span><span class="type">ARCH</span>Open archive folder</span><span class="arrow">↗</span></a></div>
+    </div>
+
+  </div>
+
+  <footer>Phat Panda Group — Retail Analytics System · Updated <span id="updated"></span> · <a href="https://drive.google.com/drive/folders/1GDfcv70HhcEOhxVxnhn0KmfEg_mR1VAx" target="_blank" rel="noopener">Source folder</a></footer>
+
+</div>
+<script>
+  document.getElementById('updated').textContent = new Date().toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+</script>
+</body>
+</html>

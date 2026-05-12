@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMBR La Mesa — Monthly Dashboard | May 2026</title>
+<style>
+  :root{--bg:#0d0f14;--card:#171c26;--accent:#10b981;--warn:#f5c842;--good:#4ade80;--bad:#f87171;--blue:#60a5fa;--purple:#a78bfa;--text:#e2e8f0;--muted:#94a3b8;--border:#2d3748;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;padding:20px;}
+  .header{background:linear-gradient(135deg,#052e16,#053321);border:1px solid #065f46;border-radius:12px;padding:24px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;}
+  .store-badge{background:var(--accent);color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;}
+  h1{font-size:22px;font-weight:700;margin-bottom:4px;}
+  .subtitle{color:var(--muted);font-size:13px;}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;}
+  .card-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .kpi-val{font-size:28px;font-weight:800;margin-bottom:2px;}
+  .kpi-delta{font-size:12px;padding:2px 7px;border-radius:10px;display:inline-block;margin-top:4px;}
+  .delta-good{background:#14532d;color:var(--good);}
+  .delta-bad{background:#7f1d1d;color:var(--bad);}
+  .delta-neutral{background:#1e2535;color:var(--muted);}
+  .section-title{font-size:15px;font-weight:700;margin-bottom:14px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .comp-card{background:#1e2535;border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px;}
+  .comp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+  .comp-name{font-weight:700;font-size:13px;}
+  .comp-badge{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700;}
+  .badge-premium{background:#1e3a5f;color:#93c5fd;}
+  .badge-craft{background:#2d1f40;color:#c4b5fd;}
+  .badge-chain{background:#14532d;color:#86efac;}
+  .badge-threat{background:#7f1d1d;color:#fca5a5;}
+  .comp-details{font-size:11px;color:var(--muted);line-height:1.5;}
+  .action-item{padding:10px 12px;border-radius:8px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px;line-height:1.4;}
+  .action-critical{background:#2d0a0a;border-left:3px solid var(--bad);}
+  .action-high{background:#2d1f00;border-left:3px solid var(--warn);}
+  .action-medium{background:#0a1f2d;border-left:3px solid var(--blue);}
+  .action-low{background:#0d1a0d;border-left:3px solid var(--good);}
+  .action-label{font-size:10px;letter-spacing:1px;font-weight:700;padding:2px 6px;border-radius:4px;margin-right:6px;}
+  .lbl-critical{background:#7f1d1d;color:#fca5a5;}
+  .lbl-high{background:#78350f;color:#fde68a;}
+  .lbl-medium{background:#1e3a5f;color:#93c5fd;}
+  .lbl-low{background:#14532d;color:#86efac;}
+  .event-row{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);}
+  .event-row:last-child{border-bottom:none;}
+  .event-month{font-size:11px;color:var(--warn);font-weight:700;width:70px;flex-shrink:0;}
+  .event-name{font-weight:600;font-size:13px;}
+  .event-opp{font-size:11px;color:var(--blue);margin-top:2px;}
+  .insight-box{background:#1e2535;border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;}
+  .insight-title{font-weight:700;font-size:13px;margin-bottom:6px;}
+  .insight-body{font-size:12px;color:var(--muted);line-height:1.5;}
+  .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .bar-label{width:90px;font-size:12px;color:var(--muted);}
+  .bar-track{flex:1;height:14px;background:#1e2535;border-radius:7px;overflow:hidden;}
+  .bar-fill{height:100%;border-radius:7px;}
+  .bar-val{width:50px;text-align:right;font-size:12px;font-weight:600;}
+  .weedmaps-checklist{list-style:none;}
+  .weedmaps-checklist li{padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;display:flex;gap:8px;align-items:center;}
+  .weedmaps-checklist li:last-child{border-bottom:none;}
+  .check{font-size:14px;}
+  .footer{text-align:center;color:var(--muted);font-size:11px;margin-top:24px;padding-top:16px;border-top:1px solid var(--border);}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div style="margin-bottom:8px;"><span class="store-badge">STORE 04 — ACTIVE</span></div>
+    <h1>EMBR La Mesa, CA</h1>
+    <div class="subtitle">Monthly Performance Dashboard | May 2026 | 61-Competitor Market • San Diego East County</div>
+  </div>
+  <div style="text-align:right">
+    <div style="font-size:11px;color:var(--muted)">All-time Transactions</div>
+    <div style="font-size:22px;font-weight:800;color:var(--accent)">184,491</div>
+    <div style="font-size:11px;color:var(--muted)">48,599 customers on file</div>
+  </div>
+</div>
+
+<!-- KPI Row -->
+<div class="grid-4">
+  <div class="card">
+    <div class="card-title">Total Transactions (All-time)</div>
+    <div class="kpi-val" style="color:var(--accent)">184,491</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-neutral">Historical Baseline</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Customers on File</div>
+    <div class="kpi-val" style="color:var(--purple)">48,599</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-neutral">CRM Base</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Active SKUs</div>
+    <div class="kpi-val" style="color:var(--warn)">1,159</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-neutral">Current Inventory</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Trans / Customer Ratio</div>
+    <div class="kpi-val" style="color:var(--good)">3.80×</div>
+    <div style="margin-top:6px;"><span class="kpi-delta delta-neutral">Moderate frequency</span></div>
+  </div>
+</div>
+
+<!-- Market Context Banner -->
+<div style="background:#0a1a10;border:1px solid #065f46;border-radius:10px;padding:14px;margin-bottom:20px;font-size:12px;color:#6ee7b7;">
+  📍 <strong>La Mesa Market Context:</strong> "Marijuana Mecca" per San Diego Reader. 61+ Weedmaps dispensary listings. Hypercompetitive Center Street / El Cajon Blvd corridor. CA 2025 market: $3.97B (-7%). Premium positioning + Phat Panda vertical integration = EMBR's competitive moat in this market.
+</div>
+
+<div class="grid-2">
+
+  <!-- Competitor Profiles -->
+  <div class="card">
+    <div class="section-title">Key Competitor Profiles — La Mesa</div>
+
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-name">Cookies La Mesa</div>
+        <span class="comp-badge badge-premium">PREMIUM BRAND</span>
+      </div>
+      <div class="comp-details">
+        📍 7935 El Cajon Blvd | Hours: M-Thu 9AM-9PM; F-Sat 7AM-9PM (early opens!)<br>
+        💰 Loyalty: "Cookie Dough" — $1=1pt; 100pts=$5; 250pts=$15; referral $20 off<br>
+        🎯 Positioning: "West Coast's most influential cannabis brand" | hip-hop culture | branded lifestyle<br>
+        ⭐ Reviews: Very positive; "best experience"; "lines can be long but worth it"<br>
+        🏷️ Strategy: Online ordering to avoid lines; event-based drops; exclusive products
+      </div>
+    </div>
+
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-name">Jungle Boys</div>
+        <span class="comp-badge badge-craft">CRAFT PREMIUM</span>
+      </div>
+      <div class="comp-details">
+        🌿 Craft genetics; artisan positioning; national brand equity<br>
+        💎 Price point: Premium; quality-driven loyal customer base<br>
+        🎯 Different segment from EMBR — artisan vs. scale/consistency
+      </div>
+    </div>
+
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-name">Urbn Leaf (2 locations)</div>
+        <span class="comp-badge badge-chain">MULTI-LOCATION</span>
+      </div>
+      <div class="comp-details">
+        📱 Strong online presence; clean/modern branding; well-reviewed<br>
+        ⭐ Reviews: "Large, clean, well-organized"; "great service"<br>
+        📍 Scale advantage with 2 La Mesa locations
+      </div>
+    </div>
+
+    <div class="comp-card">
+      <div class="comp-header">
+        <div class="comp-name">Dr. Greenthumb's, The Grove, Hotbox, Backpackboyz</div>
+        <span class="comp-badge badge-threat">ESTABLISHED FIELD</span>
+      </div>
+      <div class="comp-details">
+        Multiple established operators across La Mesa's Center Street corridor<br>
+        All competing on brand, assortment, experience, and pricing<br>
+        EMBR must WIN on: Phat Panda vertical integration story + menu freshness + Weedmaps optimization
+      </div>
+    </div>
+  </div>
+
+  <!-- Event Calendar -->
+  <div class="card">
+    <div class="section-title">La Mesa / San Diego Event Calendar 2026</div>
+    <div class="event-row">
+      <div class="event-month">May 26</div>
+      <div><div class="event-name">Memorial Day Weekend</div><div class="event-opp">📈 Strong cannabis purchase weekend; extended hours recommended</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">Jun–Jul</div>
+      <div><div class="event-name">SD County Fair (Del Mar)</div><div class="event-opp">🎡 1.5M+ visitors regionally; tourist traffic flows through La Mesa corridor</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">July</div>
+      <div><div class="event-name">Comic-Con International</div><div class="event-opp">🦸 135,000 attendees downtown SD; tourist capture opportunity; "Comic-Con week" deal</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">Fall Sat</div>
+      <div><div class="event-name">SDSU Football Game Days</div><div class="event-opp">🏈 36,000 students; La Mesa Village proximity; game day promotions</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">October</div>
+      <div><div class="event-name">Oktoberfest La Mesa ⭐</div><div class="event-opp">🍺 ~100K attendees; one of largest US Oktoberfests; CENTER STREET event weekend</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">Nov–Dec</div>
+      <div><div class="event-name">Grossmont Center Holiday Season</div><div class="event-opp">🎄 Major regional mall; holiday shoppers; gift packaging promotions</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">Apr 20</div>
+      <div><div class="event-name">4/20 Cannabis Holiday</div><div class="event-opp">🌿 Center Street is a destination; plan major event; partner with local anchors</div></div>
+    </div>
+    <div class="event-row">
+      <div class="event-month">Year-round</div>
+      <div><div class="event-name">Military Community (SD Bases)</div><div class="event-opp">🎖️ Significant active-duty + veteran population; veteran discount is table stakes in SD</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Weedmaps Optimization Checklist + Actions -->
+<div class="grid-2">
+
+  <div class="card">
+    <div class="section-title">Weedmaps Optimization Checklist — CRITICAL (61-Competitor Market)</div>
+    <ul class="weedmaps-checklist">
+      <li><span class="check">□</span> Complete business profile (hours, address, phone, license number)</li>
+      <li><span class="check">□</span> High-quality product photos uploaded (minimum 10 recent)</li>
+      <li><span class="check">□</span> Live menu synced and accurate (no out-of-stock items showing)</li>
+      <li><span class="check">□</span> Keyword-rich product descriptions (strain names, terpenes, effects)</li>
+      <li><span class="check">□</span> Deals section: at least one active deal posted this week</li>
+      <li><span class="check">□</span> Reviews responded to (especially 3-star and below)</li>
+      <li><span class="check">□</span> Geo-keywords in listing: "La Mesa", "Center Street", "East San Diego County"</li>
+      <li><span class="check">□</span> Veteran/military discount prominently listed in Weedmaps</li>
+      <li><span class="check">□</span> Online ordering / pickup flow working and promoted</li>
+      <li><span class="check">□</span> Instagram/social links current and active</li>
+    </ul>
+    <div style="margin-top:10px;padding:10px;background:#1a2f1a;border-radius:6px;font-size:11px;color:#86efac;">
+      ✅ EMBR La Mesa holds 2023 Best of Weedmaps recognition — prominently display this badge in listing and in-store.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">May 2026 Priority Actions — EMBR La Mesa</div>
+    <div class="action-item action-critical">
+      <div class="action-text"><span class="action-label lbl-critical">CRITICAL</span>Full Weedmaps listing audit and update. In a 61-dispensary market, visibility is determined by listing quality. Refresh all product photos, confirm deals are live, verify all fields complete.</div>
+    </div>
+    <div class="action-item action-high">
+      <div class="action-text"><span class="action-label lbl-high">HIGH</span>Google Business Profile audit: rating, review count, recent reviews, photo gallery freshness, Q&A section. "Dispensary near me" searches in La Mesa should return EMBR prominently.</div>
+    </div>
+    <div class="action-item action-high">
+      <div class="action-text"><span class="action-label lbl-high">HIGH</span>Military/veteran discount program: SD has one of the largest military populations in the US. Veteran discount must be prominently marketed (Weedmaps, in-store, Google). Cookies and other competitors likely have this — ensure EMBR matches.</div>
+    </div>
+    <div class="action-item action-medium">
+      <div class="action-text"><span class="action-label lbl-medium">MEDIUM</span>SD County Fair + Comic-Con promotion planning (June-July): Create themed "Summer in SD" deal bundles. Target tourist/visitor segment who may not have a regular La Mesa dispensary. Email blast to 48,599 CRM database.</div>
+    </div>
+    <div class="action-item action-medium">
+      <div class="action-text"><span class="action-label lbl-medium">MEDIUM</span>Oktoberfest La Mesa (October) pre-planning: ~100K attendees on Center Street. Plan "Oktoberfest Week" themed promotions, deals, staffing increase, extended hours. Coordinate with event if possible for visibility.</div>
+    </div>
+    <div class="action-item action-low">
+      <div class="action-text"><span class="action-label lbl-low">TRACK</span>CA market: $287M/month Feb 2026 (largest market). Price compression ongoing; illicit market ~80%. EMBR's legal, quality, and supply-chain story is the key differentiator vs illicit.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Phat Panda Group — Retail Analytics System | EMBR La Mesa Store 04 | Monthly Dashboard May 2026<br>
+  Data sources: Dutchie POS (last sync 2026-05-08), Weedmaps, Yelp, Cookies La Mesa website, Headset Analytics, CA DCC
+</div>
+
+</body>
+</html>
